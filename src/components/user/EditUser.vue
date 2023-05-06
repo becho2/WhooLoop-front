@@ -37,6 +37,7 @@
           <input
             type="password"
             id="password_confirm"
+            v-model="user.passwordConfirmation"
             name="password_confirm"
             class="form-control"
             placeholder="Enter password again"
@@ -49,9 +50,11 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
 import { server } from "../../helper";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -69,6 +72,10 @@ export default {
   },
   methods: {
     editUser() {
+      if (this.user.password !== this.user.passwordConfirmation) {
+        alert("동일한 비밀번호를 입력해주세요.");
+        return false;
+      }
       let userData = {
         password: this.user.password,
       };
@@ -85,7 +92,6 @@ export default {
       const getUserUrl = `${server.baseUrl}/user`;
 
       axios.get(getUserUrl, this.header).then((data) => {
-        console.log(data);
         this.user = data.data;
       });
     },

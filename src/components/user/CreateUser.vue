@@ -33,7 +33,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 import { server } from "../../helper";
 export default {
