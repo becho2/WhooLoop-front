@@ -2,9 +2,9 @@
   <div>
     <h4 class="text-center mt-20">
       <small>
-        <button class="btn btn-success" v-on:click="navigate()">
+        <!-- <button class="btn btn-success" v-on:click="navigate()">
           View All Users
-        </button>
+        </button> -->
       </small>
     </h4>
     <div class="col-md-12 form-wrapper">
@@ -18,7 +18,7 @@
             v-model="user.email"
             name="email"
             class="form-control"
-            placeholder="Enter email"
+            readonly
           />
         </div>
         <div>
@@ -32,6 +32,16 @@
             placeholder="Enter password"
           />
         </div>
+        <div>
+          <label for="password_confirm"> Password Again </label>
+          <input
+            type="password"
+            id="password_confirm"
+            name="password_confirm"
+            class="form-control"
+            placeholder="Enter password again"
+          />
+        </div>
         <div class="form-group col-md-4 pull-right">
           <button class="btn btn-success" type="submit">Edit User</button>
         </div>
@@ -42,7 +52,6 @@
 <script>
 import { server } from "../../helper";
 import axios from "axios";
-import router from "../../router";
 export default {
   data() {
     return {
@@ -51,27 +60,31 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.getUser();
+    this.accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indob29pbmdldmVyeWRheTNAZ21haWwuY29tIiwidXNlcl9pZHgiOjcsImlhdCI6MTY4MzM0NDk0MiwiZXhwIjoxNjgzMzQ4NTQyfQ.bW6yblAwY7k2SZrdXlVoFjNoZFBJYk0a1o0GxlB3tEs";
+    this.getUser(this.accessToken);
   },
   methods: {
     editUser() {
       let userData = {
-        email: this.user.email,
         password: this.user.password,
       };
-      axios.patch(`${server.baseUrl}/user`, userData).then((data) => {
-        console.log(data);
-        router.push({ name: "home" });
-      });
+      axios
+        .patch(`${server.baseUrl}/user`, userData)
+        .then((data) => {})
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
     getUser() {
-      axios
-        .get(`${server.baseUrl}/user/${this.id}`)
-        .then((data) => (this.user = data.data));
-    },
-    navigate() {
-      router.go(-1);
+      const getUserUrl = `${server.baseUrl}/user`;
+      const header = {
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+      };
+      axios.get(getUserUrl, header).then((data) => {
+        console.log(data);
+        this.user = data.data;
+      });
     },
   },
 };

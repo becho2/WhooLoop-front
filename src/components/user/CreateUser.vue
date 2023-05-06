@@ -36,7 +36,6 @@
 <script>
 import axios from "axios";
 import { server } from "../../helper";
-import router from "../../router";
 export default {
   data() {
     return {
@@ -50,13 +49,15 @@ export default {
         email: this.email,
         password: this.password,
       };
-      this.__submitToServer(userData);
+      this.submitToServer(userData);
     },
-    __submitToServer(data) {
-      axios.post(`${server.baseUrl}/user`, data).then((data) => {
-        console.log(data);
-        router.push({ name: "home" });
-      });
+    submitToServer(data) {
+      axios
+        .post(`${server.baseUrl}/user`, data)
+        .then((data) => {})
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
   },
 };
