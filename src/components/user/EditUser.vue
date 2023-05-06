@@ -26,7 +26,7 @@
           <input
             type="password"
             id="password"
-            v-model="password"
+            v-model="user.password"
             name="password"
             class="form-control"
             placeholder="Enter password"
@@ -62,6 +62,9 @@ export default {
   created() {
     this.accessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indob29pbmdldmVyeWRheTNAZ21haWwuY29tIiwidXNlcl9pZHgiOjcsImlhdCI6MTY4MzM0NDk0MiwiZXhwIjoxNjgzMzQ4NTQyfQ.bW6yblAwY7k2SZrdXlVoFjNoZFBJYk0a1o0GxlB3tEs";
+    this.header = {
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+    };
     this.getUser(this.accessToken);
   },
   methods: {
@@ -70,18 +73,18 @@ export default {
         password: this.user.password,
       };
       axios
-        .patch(`${server.baseUrl}/user`, userData)
-        .then((data) => {})
+        .patch(`${server.baseUrl}/user`, userData, this.header)
+        .then((data) => {
+          alert("패스워드가 성공적으로 변경되었습니다.");
+        })
         .catch((error) => {
           alert(error.response.data.message);
         });
     },
     getUser() {
       const getUserUrl = `${server.baseUrl}/user`;
-      const header = {
-        headers: { Authorization: `Bearer ${this.accessToken}` },
-      };
-      axios.get(getUserUrl, header).then((data) => {
+
+      axios.get(getUserUrl, this.header).then((data) => {
         console.log(data);
         this.user = data.data;
       });
