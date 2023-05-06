@@ -59,16 +59,21 @@ export default {
   data() {
     return {
       id: 0,
-      user: {},
+      accessToken:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indob29pbmdldmVyeWRheTNAZ21haWwuY29tIiwidXNlcl9pZHgiOjcsImlhdCI6MTY4MzM0NDk0MiwiZXhwIjoxNjgzMzQ4NTQyfQ.bW6yblAwY7k2SZrdXlVoFjNoZFBJYk0a1o0GxlB3tEs",
+      header: {},
+      user: {
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+      },
     };
   },
   created() {
-    this.accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indob29pbmdldmVyeWRheTNAZ21haWwuY29tIiwidXNlcl9pZHgiOjcsImlhdCI6MTY4MzM0NDk0MiwiZXhwIjoxNjgzMzQ4NTQyfQ.bW6yblAwY7k2SZrdXlVoFjNoZFBJYk0a1o0GxlB3tEs";
     this.header = {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     };
-    this.getUser(this.accessToken);
+    this.getUser();
   },
   methods: {
     editUser() {

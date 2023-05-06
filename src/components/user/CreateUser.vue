@@ -67,10 +67,13 @@ export default {
       };
       this.submitToServer(userData);
     },
-    submitToServer(userData) {
+    submitToServer(userData: any) {
       axios
         .post(`${server.baseUrl}/user`, userData)
-        .then((data) => {})
+        .then((data) => {
+          alert(`${this.email}님 가입이 완료되었습니다.`);
+          this.$router.push("/about");
+        })
         .catch((error) => {
           alert(error.response.data.message);
         });
