@@ -57,6 +57,7 @@ export default {
       axios
         .post(`${server.baseUrl}/auth/login`, userData)
         .then((data) => {
+          this.$emit("authenticated", true);
           this.$router.push("/section");
         })
         .catch((error) => {

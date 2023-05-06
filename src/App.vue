@@ -1,6 +1,9 @@
 <template>
-  <router-link to="/">Home</router-link> |
-  <router-link to="/section">Section</router-link>
+  <router-link v-if="!authenticated" to="/">Home</router-link>
+  <router-link v-if="authenticated" to="/section"> | Section</router-link>
+  <router-link v-if="authenticated" to="/" v-on:click.native="logout()" replace>
+    | Logout
+  </router-link>
   <router-view></router-view>
   <div class="go-to-whooing">
     <a href="https://whooing.com" target="_blank">
@@ -13,6 +16,25 @@
     </a>
   </div>
 </template>
+
+<script lang="ts">
+export default {
+  name: "App",
+  data() {
+    return {
+      authenticated: false,
+    };
+  },
+  methods: {
+    setAuthenticated(status: boolean): void {
+      this.authenticated = status;
+    },
+    logout(): void {
+      this.authenticated = false;
+    },
+  },
+};
+</script>
 
 <style scoped>
 .go-to-whooing {
