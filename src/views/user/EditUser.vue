@@ -1,12 +1,5 @@
 <template>
   <div>
-    <h4 class="text-center mt-20">
-      <small>
-        <!-- <button class="btn btn-success" v-on:click="navigate()">
-          View All Users
-        </button> -->
-      </small>
-    </h4>
     <div class="col-md-12 form-wrapper">
       <h2>Edit User</h2>
       <form id="create-post-form" @submit.prevent="editUser">

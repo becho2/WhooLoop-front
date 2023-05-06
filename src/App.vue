@@ -1,5 +1,9 @@
 <template>
+  <router-link to="/">Home</router-link> |
+  <router-link to="/section">Section</router-link>
+  <router-view></router-view>
   <div>
+    <div>후잉 바로가기</div>
     <a href="https://whooing.com" target="_blank">
       <img
         src="./assets/whooing-icon-180x180.svg"
@@ -8,9 +12,6 @@
       />
     </a>
   </div>
-  <router-link to="/">Home</router-link> |
-  <router-link to="/About">About</router-link>
-  <router-view></router-view>
 </template>
 
 <style scoped>

@@ -72,7 +72,7 @@ export default {
         .post(`${server.baseUrl}/user`, userData)
         .then((data) => {
           alert(`${this.email}님 가입이 완료되었습니다.`);
-          this.$router.push("/about");
+          this.$router.push("/section");
         })
         .catch((error) => {
           alert(error.response.data.message);
