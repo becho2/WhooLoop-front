@@ -1,10 +1,26 @@
+<script lang="ts" setup>
+import { storeToRefs } from "pinia";
+import { loginStore } from "./store/modules/login";
+
+const store = loginStore();
+const { loginData } = storeToRefs(store);
+</script>
+
 <template>
-  <router-link v-if="!authenticated" to="/">Home</router-link>
-  <router-link v-if="authenticated" to="/section"> | Section</router-link>
-  <router-link v-if="authenticated" to="/" v-on:click.native="logout()" replace>
+  <router-link v-if="loginData.accessToken" to="/">Home</router-link>
+  <router-link v-if="loginData.accessToken" to="/section">
+    | Section</router-link
+  >
+  <router-link
+    v-if="loginData.accessToken"
+    to="/"
+    v-on:click.native="logout()"
+    replace
+  >
     | Logout
   </router-link>
   <router-view></router-view>
+  <input type="text" v-model="loginData.accessToken" />
   <div class="go-to-whooing">
     <a href="https://whooing.com" target="_blank">
       <div>후잉 바로가기</div>
@@ -21,16 +37,11 @@
 export default {
   name: "App",
   data() {
-    return {
-      authenticated: false,
-    };
+    return {};
   },
   methods: {
-    setAuthenticated(status: boolean): void {
-      this.authenticated = status;
-    },
     logout(): void {
-      this.authenticated = false;
+      loginStore().removeAccessToken();
     },
   },
 };

@@ -47,13 +47,14 @@
 <script lang="ts">
 import { server } from "../../helper";
 import axios from "axios";
+import { ref } from "vue";
+import { loginStore } from "../../store/modules/login";
 
 export default {
   data() {
     return {
       id: 0,
-      accessToken:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indob29pbmdldmVyeWRheTNAZ21haWwuY29tIiwidXNlcl9pZHgiOjcsImlhdCI6MTY4MzM0NDk0MiwiZXhwIjoxNjgzMzQ4NTQyfQ.bW6yblAwY7k2SZrdXlVoFjNoZFBJYk0a1o0GxlB3tEs",
+      accessToken: ref(loginStore().loginData.accessToken),
       header: {},
       user: {
         email: "",
