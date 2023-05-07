@@ -38,6 +38,8 @@
 <script lang="ts">
 import axios from "axios";
 import { server } from "../helper";
+import { loginStore } from "../store/modules/login";
+
 export default {
   data() {
     return {
@@ -57,7 +59,7 @@ export default {
       axios
         .post(`${server.baseUrl}/auth/login`, userData)
         .then((data) => {
-          this.$emit("authenticated", true);
+          loginStore().getAccessToken(data.data);
           this.$router.push("/section");
         })
         .catch((error) => {
