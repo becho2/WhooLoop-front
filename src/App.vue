@@ -3,16 +3,16 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "./store/modules/auth.store";
 
 const store = useAuthStore();
-const { loginData } = storeToRefs(store);
+const { authData } = storeToRefs(store);
 </script>
 
 <template>
-  <router-link v-if="loginData.accessToken" to="/">Home</router-link>
-  <router-link v-if="loginData.accessToken" to="/section">
+  <router-link v-if="authData.accessToken" to="/">Home</router-link>
+  <router-link v-if="authData.accessToken" to="/section">
     | Section</router-link
   >
   <router-link
-    v-if="loginData.accessToken"
+    v-if="authData.accessToken"
     to="/"
     v-on:click.native="logout()"
     replace
@@ -20,7 +20,7 @@ const { loginData } = storeToRefs(store);
     | Logout
   </router-link>
   <router-view></router-view>
-  <input type="text" v-model="loginData.accessToken" />
+  <input type="text" v-model="authData.accessToken" />
   <div class="go-to-whooing">
     <a href="https://whooing.com" target="_blank">
       <div>후잉 바로가기</div>

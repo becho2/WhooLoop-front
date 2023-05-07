@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       id: 0,
-      accessToken: ref(useAuthStore().loginData.accessToken),
+      accessToken: ref(useAuthStore().authData.accessToken),
       header: {},
       user: {
         email: "",

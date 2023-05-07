@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       email: "",
-      accessToken: ref(useAuthStore().loginData.accessToken),
+      accessToken: ref(useAuthStore().authData.accessToken),
     };
   },
   methods: {},
