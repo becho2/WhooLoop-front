@@ -1,21 +1,42 @@
 <template>
   <div class="section">
     <h1>Section</h1>
-    <input type="text" v-model="accessToken" />
+    <table>
+      <thead>
+        <th v-for="item in header">{{ item }}</th>
+      </thead>
+      <tbody>
+        <tr v-for="line in sections">
+          <td v-for="item in line">{{ item }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-import { useAuthStore } from "../store/modules/auth.store";
+import axios from "axios";
+import { server } from "../helper";
 
 export default {
   data() {
     return {
-      email: "",
-      accessToken: ref(useAuthStore().authData.accessToken),
+      header: ["섹션명", "Webhook Url"],
+      sections: [],
     };
   },
-  methods: {},
+  created() {},
+  methods: {
+    getSections(idx: number) {
+      axios
+        .get(`${server.baseUrl}/user/${idx}`)
+        .then((data) => {
+          this.sections = data.data;
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+  },
 };
 </script>
