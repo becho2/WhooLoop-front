@@ -7,13 +7,13 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import { loginStore } from "../store/modules/login";
+import { useAuthStore } from "../store/modules/auth.store";
 
 export default {
   data() {
     return {
       email: "",
-      accessToken: ref(loginStore().loginData.accessToken),
+      accessToken: ref(useAuthStore().loginData.accessToken),
     };
   },
   methods: {},

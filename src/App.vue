@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { loginStore } from "./store/modules/login";
+import { useAuthStore } from "./store/modules/auth.store";
 
-const store = loginStore();
+const store = useAuthStore();
 const { loginData } = storeToRefs(store);
 </script>
 
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     logout(): void {
-      loginStore().removeAccessToken();
+      useAuthStore().logout();
     },
   },
 };

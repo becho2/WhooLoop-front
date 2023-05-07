@@ -38,7 +38,8 @@
 <script lang="ts">
 import axios from "axios";
 import { server } from "../helper";
-import { loginStore } from "../store/modules/login";
+import { useAuthStore } from "../store/modules/auth.store";
+import { AuthData } from "../store/index.interface";
 
 export default {
   data() {
@@ -59,7 +60,11 @@ export default {
       axios
         .post(`${server.baseUrl}/auth/login`, userData)
         .then((data) => {
-          loginStore().getAccessToken(data.data);
+          const authData: AuthData = {
+            email: this.email,
+            accessToken: data.data,
+          };
+          useAuthStore().login(authData);
           this.$router.push("/section");
         })
         .catch((error) => {

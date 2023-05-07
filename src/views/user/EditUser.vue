@@ -48,13 +48,13 @@
 import { server } from "../../helper";
 import axios from "axios";
 import { ref } from "vue";
-import { loginStore } from "../../store/modules/login";
+import { useAuthStore } from "../../store/modules/auth.store";
 
 export default {
   data() {
     return {
       id: 0,
-      accessToken: ref(loginStore().loginData.accessToken),
+      accessToken: ref(useAuthStore().loginData.accessToken),
       header: {},
       user: {
         email: "",
