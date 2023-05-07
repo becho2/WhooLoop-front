@@ -1,6 +1,33 @@
 <template>
   <div class="section">
     <h1>Section</h1>
+    <form id="create-section-form" @submit.prevent="createSection">
+      <div class="form-group col-md-12">
+        <label for="section_name"> 섹션이름 </label>
+        <input
+          type="text"
+          id="section_name"
+          v-model="sectionName"
+          name="section_name"
+          class="form-control"
+          placeholder="Set section name"
+        />
+      </div>
+      <div>
+        <label for="webhook_url"> 후잉 Webhook Url </label>
+        <input
+          type="webhook_url"
+          id="webhook_url"
+          v-model="webhookUrl"
+          name="webhook_url"
+          class="form-control"
+          placeholder="Copy webhook url and paste that here"
+        />
+      </div>
+      <div class="form-group col-md-4 pull-right">
+        <button class="btn btn-success" type="submit">Create Section</button>
+      </div>
+    </form>
     <table>
       <thead>
         <th v-for="item in header">{{ item }}</th>
@@ -17,21 +44,54 @@
 <script lang="ts">
 import axios from "axios";
 import { server } from "../helper";
+import { CreateSectionDto } from "../dto/create-section.dto";
+import { ref } from "vue";
+import { useAuthStore } from "../store/modules/auth.store";
 
 export default {
   data() {
     return {
       header: ["섹션명", "Webhook Url"],
       sections: [],
+      sectionName: "",
+      webhookUrl: "",
+      accessToken: ref(useAuthStore().authData.accessToken),
+      requestHeader: {},
     };
   },
-  created() {},
+  created() {
+    this.requestHeader = {
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+    };
+  },
   methods: {
-    getSections(idx: number) {
+    getSections() {
       axios
-        .get(`${server.baseUrl}/user/${idx}`)
+        .get(`${server.baseUrl}/section`)
         .then((data) => {
           this.sections = data.data;
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    createSection() {
+      if (!this.webhookUrl) {
+        alert("webhook url is required");
+        return false;
+      }
+      let createSectionDto: CreateSectionDto = {
+        section_name: this.sectionName,
+        whooing_webhook_url: this.webhookUrl,
+      };
+      this.submitToServer(createSectionDto);
+    },
+    submitToServer(createSectionDto: CreateSectionDto) {
+      axios
+        .post(`${server.baseUrl}/section`, createSectionDto, this.requestHeader)
+        .then((data) => {
+          alert(`${createSectionDto.section_name} 섹션 등록이 완료되었습니다.`);
+          this.getSections();
         })
         .catch((error) => {
           alert(error.response.data.message);
