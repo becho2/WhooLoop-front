@@ -63,11 +63,12 @@ export default {
     this.requestHeader = {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     };
+    this.getSections();
   },
   methods: {
     getSections() {
       axios
-        .get(`${server.baseUrl}/section`)
+        .get(`${server.baseUrl}/section`, this.requestHeader)
         .then((data) => {
           this.sections = data.data;
         })
