@@ -1,7 +1,15 @@
 <template>
   <div class="transaction">
-    <h1>Transaction</h1>
-    <form id="create-section-form" @submit.prevent="createTransaction">
+    <h1>반복할 거래</h1>
+    <form id="create-transaction-form" @submit.prevent="createTransaction">
+      <div>
+        <label for="section_idx"> 섹션 </label>
+        <select name="section_idx" v-model="sectionIdx">
+          <option v-for="section in sectionsOfUsers">
+            {{ section }}
+          </option>
+        </select>
+      </div>
       <div class="form-group col-md-12">
         <label for="transaction_nickname"> 거래명 </label>
         <input
@@ -26,10 +34,74 @@
           <option value="7">일</option>
         </select>
       </div>
+      <div class="form-group col-md-12">
+        <label for="request_time"> 반복시간(HHMM) </label>
+        <input
+          type="text"
+          id="request_time"
+          v-model="requestTime"
+          name="request_time"
+          class="form-control"
+          placeholder="거래를 입력할 시간을 시간, 분 순서로 4자리 숫자로 입력하세요(ex. 새벽 3시는 0300, 오후 3시 12분이라면 1512)"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <label for="transaction_item"> 아이템 </label>
+        <input
+          type="text"
+          id="transaction_item"
+          v-model="transactionItem"
+          name="transaction_item"
+          class="form-control"
+          placeholder="후잉 거래 아이템을 입력하세요"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <label for="transaction_money_amount"> 금액 </label>
+        <input
+          type="text"
+          id="transaction_money_amount"
+          v-model="transactionMoneyAmount"
+          name="transaction_money_amount"
+          class="form-control"
+          placeholder="후잉 거래 금액을 입력하세요"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <label for="transaction_left"> 왼쪽 </label>
+        <input
+          type="text"
+          id="transaction_left"
+          v-model="transactionLeft"
+          name="transaction_left"
+          class="form-control"
+          placeholder="후잉 거래 왼쪽을 정확하게 입력하세요"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <label for="transaction_right"> 오른쪽 </label>
+        <input
+          type="text"
+          id="transaction_right"
+          v-model="transactionRight"
+          name="transaction_right"
+          class="form-control"
+          placeholder="후잉 거래 오른쪽을 정확하게 입력하세요"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <label for="transaction_memo"> 메모 </label>
+        <input
+          type="text"
+          id="transaction_memo"
+          v-model="transactionMemo"
+          name="transaction_memo"
+          class="form-control"
+          placeholder="(필수 아님)후잉 거래 메모를 입력하세요"
+        />
+      </div>
       <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="submit">
-          Create Transaction
-        </button>
+        <button class="btn btn-success" type="submit">거래 등록</button>
       </div>
     </form>
     <table>
@@ -59,13 +131,14 @@ td {
 <script lang="ts">
 import axios from "axios";
 import { server } from "../helper";
-import { CreateTransactionDto } from "../dto/create-section.dto";
+import { CreateTransactionDto } from "../dto/create-transaction.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
 
 export default {
   data() {
     return {
+      sectionsOfUsers: [1, 2, 3],
       header: [
         "idx",
         "섹션idx",
@@ -77,9 +150,9 @@ export default {
         "왼쪽",
         "오른쪽",
         "메모",
+        "현재동작여부",
         "생성일시",
         "마지막수정일시",
-        "삭제여부",
       ],
       transactions: [],
       sectionIdx: "",
@@ -87,7 +160,7 @@ export default {
       requestDayOfWeek: "",
       requestTime: "",
       transactionItem: "",
-      transactionMoney: "",
+      transactionMoneyAmount: 0,
       transactionLeft: "",
       transactionRight: "",
       transactionMemo: "",
@@ -103,11 +176,12 @@ export default {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     };
     this.getTransactions();
+    this.getSectionsInfo();
   },
   methods: {
     getTransactions() {
       axios
-        .get(`${server.baseUrl}/section`, this.requestHeader)
+        .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
           this.transactions = data.data;
         })
@@ -115,27 +189,57 @@ export default {
           alert(error.response.data.message);
         });
     },
+    getSectionsInfo() {
+      axios
+        .get(`${server.baseUrl}/section`, this.requestHeader)
+        .then((data) => {
+          this.sectionsOfUsers = data.data;
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
     createTransaction() {
+      if (!this.sectionIdx) {
+        alert("섹션이 선택되지 않았습니다.");
+        return false;
+      }
       if (!this.transactionItem) {
         alert("아이템이 입력되지 않았습니다.");
         return false;
       }
+      if (!this.transactionMoneyAmount) {
+        alert("금액이 입력되지 않았습니다.");
+        return false;
+      }
+      if (!this.transactionLeft) {
+        alert("왼쪽이 입력되지 않았습니다.");
+        return false;
+      }
+      if (!this.transactionRight) {
+        alert("오른쪽이 입력되지 않았습니다.");
+        return false;
+      }
+
       let createTransactionDto: CreateTransactionDto = {
+        section_idx: JSON.parse(this.sectionIdx).section_idx,
+        request_day_of_week: this.requestDayOfWeek,
+        request_time: this.requestTime,
         transaction_nickname: this.transactionNickname,
-        whooing_webhook_url: this.transactionItem,
+        transaction_item: this.transactionItem,
+        transaction_money_amount: this.transactionMoneyAmount,
+        transaction_left: this.transactionLeft,
+        transaction_right: this.transactionRight,
+        transaction_memo: this.transactionMemo,
       };
       this.submitToServer(createTransactionDto);
     },
     submitToServer(createTransactionDto: CreateTransactionDto) {
       axios
-        .post(
-          `${server.baseUrl}/section`,
-          createTransactionDto,
-          this.requestHeader
-        )
+        .post(`${server.baseUrl}/trx`, createTransactionDto, this.requestHeader)
         .then((data) => {
           alert(
-            `${createTransactionDto.section_name} 거래 등록이 완료되었습니다.`
+            `${createTransactionDto.transaction_nickname} 거래 등록이 완료되었습니다.`
           );
           this.getTransactions();
         })
