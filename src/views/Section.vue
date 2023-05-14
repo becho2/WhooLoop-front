@@ -30,7 +30,7 @@
     </form>
     <table>
       <thead>
-        <th v-for="item in header">{{ item }}</th>
+        <th v-for="headerItem in header">{{ headerItem }}</th>
       </thead>
       <tbody>
         <tr v-for="line in sections">
@@ -40,6 +40,17 @@
     </table>
   </div>
 </template>
+
+<style>
+table {
+  width: 100%;
+  border: 1px solid #444444;
+}
+th,
+td {
+  border: 1px solid #444444;
+}
+</style>
 
 <script lang="ts">
 import axios from "axios";
@@ -51,7 +62,7 @@ import { useAuthStore } from "../store/modules/auth.store";
 export default {
   data() {
     return {
-      header: ["섹션명", "Webhook Url"],
+      header: ["idx", "섹션명", "Webhook Url", "생성일시"],
       sections: [],
       sectionName: "",
       webhookUrl: "",

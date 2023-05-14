@@ -7,9 +7,12 @@ const { authData } = storeToRefs(store);
 </script>
 
 <template>
-  <router-link v-if="authData.accessToken" to="/">Home</router-link>
-  <router-link v-if="authData.accessToken" to="/section">
-    | Section</router-link
+  <router-link v-if="!authData.accessToken" to="/">Home</router-link>
+  <router-link v-if="authData.accessToken" to="/sections">
+    | Sections</router-link
+  >
+  <router-link v-if="authData.accessToken" to="/transactions">
+    | Transactions</router-link
   >
   <router-link
     v-if="authData.accessToken"
