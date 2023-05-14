@@ -65,7 +65,7 @@ export default {
             accessToken: data.data,
           };
           useAuthStore().login(authData);
-          this.$router.push("/section");
+          this.$router.push("/transactions");
         })
         .catch((error) => {
           alert(error.response.data.message);
