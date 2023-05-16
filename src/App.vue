@@ -23,7 +23,6 @@ const { authData } = storeToRefs(store);
     | Logout
   </router-link>
   <router-view></router-view>
-  <input type="text" v-model="authData.accessToken" />
   <div class="go-to-whooing">
     <a href="https://whooing.com" target="_blank">
       <div>후잉 바로가기</div>
