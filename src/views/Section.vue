@@ -84,7 +84,12 @@ export default {
           this.sections = data.data;
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          if (error.response.data.statusCode == 401) {
+            useAuthStore().logout();
+            alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+          } else {
+            alert(error.response.data.message);
+          }
         });
     },
     createSection() {
@@ -106,7 +111,12 @@ export default {
           this.getSections();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          if (error.response.data.statusCode == 401) {
+            useAuthStore().logout();
+            alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+          } else {
+            alert(error.response.data.message);
+          }
         });
     },
   },
