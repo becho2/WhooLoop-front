@@ -90,7 +90,7 @@ export default {
           )
           .then((data) => {
             alert("삭제되었습니다.");
-            location.reload();
+            this.getSections();
           })
           .catch((error) => {
             alert(error.response.data.message);

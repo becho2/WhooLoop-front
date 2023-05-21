@@ -149,15 +149,13 @@ export default {
         "섹션idx",
         "거래명",
         "반복요일",
-        "반복시간(HHMM)",
+        "반복시간",
         "아이템",
         "금액",
         "왼쪽",
         "오른쪽",
         "메모",
-        "현재동작여부",
-        "생성일시",
-        "마지막수정일시",
+        "동작여부",
       ],
       transactions: [],
       sectionIdx: "",
@@ -197,7 +195,7 @@ export default {
           )
           .then((data) => {
             alert("삭제되었습니다.");
-            location.reload();
+            this.getTransactions();
           })
           .catch((error) => {
             alert(error.response.data.message);
