@@ -134,11 +134,12 @@ import { server } from "../helper";
 import { CreateTransactionDto } from "../dto/create-transaction.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
+import router from "../router";
 
 export default {
   data() {
     return {
-      sectionsOfUsers: [1, 2, 3],
+      sectionsOfUsers: [],
       header: [
         "idx",
         "섹션idx",
@@ -201,11 +202,25 @@ export default {
           this.sectionsOfUsers = data.data;
         })
         .catch((error) => {
-          if (error.response.data.statusCode == 401) {
-            useAuthStore().logout();
-            alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
-          } else {
-            alert(error.response.data.message);
+          switch (error.response.data.statusCode) {
+            case 401:
+              useAuthStore().logout();
+              alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+              break;
+            case 404:
+              if (
+                confirm(
+                  `거래를 등록하려면 최소한 하나의 섹션 등록이 필요합니다. 
+지금 섹션을 등록하러 가시겠습니까?`
+                )
+              ) {
+                const returnUrl = "/sections";
+                router.push(returnUrl || "/");
+              }
+              break;
+            default:
+              alert(error.response.data.message);
+              break;
           }
         });
     },

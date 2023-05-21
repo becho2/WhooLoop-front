@@ -84,11 +84,16 @@ export default {
           this.sections = data.data;
         })
         .catch((error) => {
-          if (error.response.data.statusCode == 401) {
-            useAuthStore().logout();
-            alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
-          } else {
-            alert(error.response.data.message);
+          switch (error.response.data.statusCode) {
+            case 401:
+              useAuthStore().logout();
+              alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+              break;
+            case 404:
+              break;
+            default:
+              alert(error.response.data.message);
+              break;
           }
         });
     },
