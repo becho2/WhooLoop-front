@@ -6,7 +6,7 @@
         <label for="section_idx"> 섹션 </label>
         <select name="section_idx" v-model="sectionIdx">
           <option v-for="section in sectionsOfUsers">
-            {{ section }}
+            {{ section.section_name }}
           </option>
         </select>
       </div>
@@ -111,6 +111,9 @@
       <tbody>
         <tr v-for="line in transactions">
           <td v-for="item in line">{{ item }}</td>
+          <td>
+            <button v-on:click="deleteTransaction(line)">삭제</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -135,6 +138,7 @@ import { CreateTransactionDto } from "../dto/create-transaction.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
 import router from "../router";
+import { TransactionItemDto } from "../dto/transaction-item.dto";
 
 export default {
   data() {
@@ -180,6 +184,26 @@ export default {
     this.getSectionsInfo();
   },
   methods: {
+    deleteTransaction(transaction: TransactionItemDto) {
+      if (
+        confirm(
+          `${transaction.transaction_nickname} 거래를 정말 삭제하시겠습니까?`
+        )
+      ) {
+        axios
+          .delete(
+            `${server.baseUrl}/trx/${transaction.transaction_idx}`,
+            this.requestHeader
+          )
+          .then((data) => {
+            alert("삭제되었습니다.");
+            location.reload();
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
+    },
     getTransactions() {
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)

@@ -61,7 +61,7 @@ import { server } from "../helper";
 import { CreateSectionDto } from "../dto/create-section.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
-import { SectionDto } from "../dto/section.dto";
+import { SectionDto } from "../dto/section-item.dto";
 
 export default {
   data() {
