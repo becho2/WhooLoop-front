@@ -2,5 +2,5 @@ export interface TransactionItemDto {
   transaction_idx: number;
   section_idx: number;
   transaction_nickname: string;
-  created: string;
+  work_status: string;
 }

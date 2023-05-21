@@ -110,10 +110,25 @@
       </thead>
       <tbody>
         <tr v-for="line in transactions">
-          <td v-for="item in line">{{ item }}</td>
+          <td>{{ line.transaction_idx }}</td>
+          <td>{{ line.section_idx }}</td>
+          <td>{{ line.transaction_nickname }}</td>
+          <td>{{ line.request_day_of_week }}</td>
+          <td>{{ line.request_time }}</td>
+          <td>{{ line.transaction_item }}</td>
+          <td>{{ line.transaction_money_amount }}</td>
+          <td>{{ line.transaction_left }}</td>
+          <td>{{ line.transaction_right }}</td>
+          <td>{{ line.transaction_memo }}</td>
+          <td>
+            <button v-on:click="toggleTransaction(line)">
+              {{ line.work_status }}
+            </button>
+          </td>
           <td>
             <button v-on:click="deleteTransaction(line)">삭제</button>
           </td>
+          <!-- <td v-for="item in line">{{ item }}</td> -->
         </tr>
       </tbody>
     </table>
@@ -139,6 +154,7 @@ import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
 import router from "../router";
 import { TransactionItemDto } from "../dto/transaction-item.dto";
+import { UpdateTransactionDto } from "../dto/update-transaction.dto";
 
 export default {
   data() {
@@ -182,6 +198,30 @@ export default {
     this.getSectionsInfo();
   },
   methods: {
+    toggleTransaction(transaction: TransactionItemDto) {
+      const updateTransaction: UpdateTransactionDto = {
+        work_status: transaction.work_status === "ON" ? "OFF" : "ON",
+      };
+      if (
+        confirm(
+          `${transaction.transaction_nickname} 자동입력상태를 변경하시겠습니까?`
+        )
+      ) {
+        axios
+          .patch(
+            `${server.baseUrl}/trx/${transaction.transaction_idx}`,
+            updateTransaction,
+            this.requestHeader
+          )
+          .then((data) => {
+            alert("변경되었습니다.");
+            this.getTransactions();
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
+    },
     deleteTransaction(transaction: TransactionItemDto) {
       if (
         confirm(
@@ -206,6 +246,7 @@ export default {
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
+          console.log(data.data);
           this.transactions = data.data;
         })
         .catch((error) => {
