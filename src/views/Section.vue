@@ -3,7 +3,7 @@
     <h1>Section</h1>
     <form id="create-section-form" @submit.prevent="createSection">
       <div class="form-group col-md-12">
-        <label for="section_name"> 섹션이름 </label>
+        <label for="section_name">섹션명 </label>
         <input
           type="text"
           id="section_name"
@@ -14,7 +14,7 @@
         />
       </div>
       <div>
-        <label for="webhook_url"> 후잉 Webhook Url </label>
+        <label for="webhook_url">후잉 Webhook Url </label>
         <input
           type="webhook_url"
           id="webhook_url"
@@ -25,7 +25,7 @@
         />
       </div>
       <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="submit">Create Section</button>
+        <button class="btn btn-success" type="submit">섹션 등록</button>
       </div>
     </form>
     <table>
@@ -35,6 +35,9 @@
       <tbody>
         <tr v-for="line in sections">
           <td v-for="item in line">{{ item }}</td>
+          <td>
+            <button v-on:click="deleteSection(line)">삭제</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -58,11 +61,12 @@ import { server } from "../helper";
 import { CreateSectionDto } from "../dto/create-section.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";
+import { SectionDto } from "../dto/section.dto";
 
 export default {
   data() {
     return {
-      header: ["idx", "섹션명", "Webhook Url", "생성일시"],
+      header: ["idx", "섹션명", "Webhook Url", "생성일시", ""],
       sections: [],
       sectionName: "",
       webhookUrl: "",
@@ -77,6 +81,22 @@ export default {
     this.getSections();
   },
   methods: {
+    deleteSection(section: SectionDto) {
+      if (confirm(`${section.section_name} 섹션을 정말 삭제하시겠습니까?`)) {
+        axios
+          .delete(
+            `${server.baseUrl}/section/${section.section_idx}`,
+            this.requestHeader
+          )
+          .then((data) => {
+            alert("삭제되었습니다.");
+            location.reload();
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
+    },
     getSections() {
       axios
         .get(`${server.baseUrl}/section`, this.requestHeader)
