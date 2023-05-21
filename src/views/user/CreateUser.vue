@@ -37,7 +37,7 @@
           />
         </div>
         <div class="form-group col-md-4 pull-right">
-          <button class="btn btn-success" type="submit">Create User</button>
+          <button class="btn btn-success" type="submit">이메일 등록</button>
         </div>
       </form>
     </div>
@@ -47,6 +47,7 @@
 <script lang="ts">
 import axios from "axios";
 import { server } from "../../helper";
+import router from "../../router/index";
 export default {
   data() {
     return {
@@ -72,7 +73,7 @@ export default {
         .post(`${server.baseUrl}/user`, userData)
         .then((data) => {
           alert(`${this.email}님 가입이 완료되었습니다.`);
-          this.$router.push("/section");
+          router.push("/");
         })
         .catch((error) => {
           alert(error.response.data.message);
