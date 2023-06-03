@@ -58,7 +58,7 @@ export default {
     },
     submitToServer(userData: any) {
       axios
-        .post(`${server.baseUrl}/auth/login`, userData)
+        .post(`/auth/login`, userData)
         .then((data) => {
           const authData: AuthData = {
             email: this.email,
