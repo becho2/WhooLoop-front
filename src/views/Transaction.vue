@@ -155,7 +155,6 @@ import { useAuthStore } from "../store/modules/auth.store";
 import router from "../router";
 import { TransactionItemDto } from "../dto/transaction-item.dto";
 import { UpdateTransactionDto } from "../dto/update-transaction.dto";
-import { TransactionDto } from "../dto/transaction.dto";
 
 export default {
   data() {
