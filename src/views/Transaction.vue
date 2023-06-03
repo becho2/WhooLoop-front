@@ -155,11 +155,12 @@ import { useAuthStore } from "../store/modules/auth.store";
 import router from "../router";
 import { TransactionItemDto } from "../dto/transaction-item.dto";
 import { UpdateTransactionDto } from "../dto/update-transaction.dto";
+import { TransactionDto } from "../dto/transaction.dto";
 
 export default {
   data() {
     return {
-      sectionsOfUsers: [],
+      sectionsOfUsers: [{ section_name: "a" }],
       header: [
         "idx",
         "섹션idx",
@@ -173,7 +174,35 @@ export default {
         "메모",
         "동작여부",
       ],
-      transactions: [],
+      transactions: [
+        {
+          transaction_idx: 1,
+          /** owner's user idx */
+          user_idx: 1,
+          /** related section idx */
+          section_idx: 1,
+          /** 이 반복요청의 별칭 */
+          transaction_nickname: "a",
+          /** 요청을 반복할 요일(d: 매일, 1~7: 월~일요일) */
+          request_day_of_week: "a",
+          /** 요청을 보낼 시간 HHmm */
+          request_time: "a",
+          // /** 후잉 item 입력값 */
+          transaction_item: "a",
+          // /** 후잉 금액 입력값 */
+          transaction_money_amount: 1,
+          // /** 후잉 좌변(비용) */
+          transaction_left: "a",
+          // /** 후잉 우변(수익) */
+          transaction_right: "a",
+          // /** 후잉 거래 메모 */
+          transaction_memo: "a",
+          work_status: "a",
+          is_deleted: "a",
+          created: "a",
+          updated_last: "a",
+        },
+      ],
       sectionIdx: "",
       transactionNickname: "",
       requestDayOfWeek: "",
@@ -194,7 +223,7 @@ export default {
     this.requestHeader = {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     };
-    this.getTransactions();
+    this.transactions = this.getTransactions();
     this.getSectionsInfo();
   },
   methods: {
@@ -242,12 +271,11 @@ export default {
           });
       }
     },
-    getTransactions() {
+    getTransactions(): TransactionDto[] {
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
-          console.log(data.data);
-          this.transactions = data.data;
+          return data.data;
         })
         .catch((error) => {
           if (error.response.data.statusCode == 401) {
@@ -257,6 +285,7 @@ export default {
             alert(error.response.data.message);
           }
         });
+      return [];
     },
     getSectionsInfo() {
       axios
@@ -273,7 +302,7 @@ export default {
             case 404:
               if (
                 confirm(
-                  `거래를 등록하려면 최소한 하나의 섹션 등록이 필요합니다. 
+                  `거래를 등록하려면 최소한 하나의 섹션 등록이 필요합니다.
 지금 섹션을 등록하러 가시겠습니까?`
                 )
               ) {
