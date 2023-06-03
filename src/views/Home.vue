@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import axios from "axios";
-import { server } from "../helper";
 import { useAuthStore } from "../store/modules/auth.store";
 import { AuthData } from "../store/index.interface";
 
@@ -58,7 +57,7 @@ export default {
     },
     submitToServer(userData: any) {
       axios
-        .post(`/auth/login`, userData)
+        .post("/auth/login", userData)
         .then((data) => {
           const authData: AuthData = {
             email: this.email,
