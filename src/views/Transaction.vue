@@ -5,7 +5,10 @@
       <div>
         <label for="section_idx"> 섹션 </label>
         <select name="section_idx" v-model="sectionIdx">
-          <option v-for="section in sectionsOfUsers">
+          <option
+            v-for="section in sectionsOfUsers"
+            :value="section.section_idx"
+          >
             {{ section.section_name }}
           </option>
         </select>
@@ -159,7 +162,7 @@ import { UpdateTransactionDto } from "../dto/update-transaction.dto";
 export default {
   data() {
     return {
-      sectionsOfUsers: [{ section_name: "a" }],
+      sectionsOfUsers: [{ section_idx: 1, section_name: "a" }],
       header: [
         "idx",
         "섹션idx",
@@ -289,6 +292,7 @@ export default {
       axios
         .get(`${server.baseUrl}/section`, this.requestHeader)
         .then((data) => {
+          console.log(data.data);
           this.sectionsOfUsers = data.data;
         })
         .catch((error) => {
@@ -337,7 +341,7 @@ export default {
       }
 
       let createTransactionDto: CreateTransactionDto = {
-        section_idx: JSON.parse(this.sectionIdx).section_idx,
+        section_idx: this.sectionIdx,
         request_day_of_week: this.requestDayOfWeek,
         request_time: this.requestTime,
         transaction_nickname: this.transactionNickname,
