@@ -1,3 +1,3 @@
 export const server = {
-  baseUrl: "http://localhost:3000",
+  baseUrl: "http://146.56.136.6:3000",
 };

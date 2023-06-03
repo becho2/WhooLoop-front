@@ -39,6 +39,7 @@
 import axios from "axios";
 import { useAuthStore } from "../store/modules/auth.store";
 import { AuthData } from "../store/index.interface";
+import { server } from "../helper";
 
 export default {
   data() {
@@ -57,7 +58,7 @@ export default {
     },
     submitToServer(userData: any) {
       axios
-        .post("/auth/login", userData)
+        .post(`${server.baseUrl}/auth/login`, userData)
         .then((data) => {
           const authData: AuthData = {
             email: this.email,
