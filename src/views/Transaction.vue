@@ -223,7 +223,7 @@ export default {
     this.requestHeader = {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     };
-    this.transactions = this.getTransactions();
+    this.getTransactions();
     this.getSectionsInfo();
   },
   methods: {
@@ -271,11 +271,11 @@ export default {
           });
       }
     },
-    getTransactions(): TransactionDto[] {
+    getTransactions() {
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
-          return data.data;
+          this.transactions = data.data;
         })
         .catch((error) => {
           if (error.response.data.statusCode == 401) {
@@ -285,7 +285,6 @@ export default {
             alert(error.response.data.message);
           }
         });
-      return [];
     },
     getSectionsInfo() {
       axios
