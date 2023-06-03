@@ -4,10 +4,9 @@ import router from "../../router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    authData:
-      typeof localStorage.getItem("authData") === "string"
-        ? (JSON.parse(localStorage.getItem("authData")) as AuthData)
-        : ({ email: "", accessToken: "" } as AuthData),
+    authData: JSON.parse(
+      localStorage.getItem("authData") ?? '{"email":"", "accessToken":""}'
+    ) as AuthData,
     returnUrl: "",
   }),
   getters: {},

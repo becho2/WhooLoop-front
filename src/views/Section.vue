@@ -88,7 +88,7 @@ export default {
             `${server.baseUrl}/section/${section.section_idx}`,
             this.requestHeader
           )
-          .then((data) => {
+          .then(() => {
             alert("삭제되었습니다.");
             this.getSections();
           })
@@ -131,7 +131,7 @@ export default {
     submitToServer(createSectionDto: CreateSectionDto) {
       axios
         .post(`${server.baseUrl}/section`, createSectionDto, this.requestHeader)
-        .then((data) => {
+        .then(() => {
           alert(`${createSectionDto.section_name} 섹션 등록이 완료되었습니다.`);
           this.getSections();
         })

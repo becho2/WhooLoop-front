@@ -80,7 +80,7 @@ export default {
       };
       axios
         .patch(`${server.baseUrl}/user`, userData, this.header)
-        .then((data) => {
+        .then(() => {
           alert("패스워드가 성공적으로 변경되었습니다.");
         })
         .catch((error) => {

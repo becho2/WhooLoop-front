@@ -71,7 +71,7 @@ export default {
     submitToServer(userData: any) {
       axios
         .post(`${server.baseUrl}/user`, userData)
-        .then((data) => {
+        .then(() => {
           alert(`${this.email}님 가입이 완료되었습니다.`);
           router.push("/");
         })

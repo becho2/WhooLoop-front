@@ -213,7 +213,7 @@ export default {
             updateTransaction,
             this.requestHeader
           )
-          .then((data) => {
+          .then(() => {
             alert("변경되었습니다.");
             this.getTransactions();
           })
@@ -233,7 +233,7 @@ export default {
             `${server.baseUrl}/trx/${transaction.transaction_idx}`,
             this.requestHeader
           )
-          .then((data) => {
+          .then(() => {
             alert("삭제되었습니다.");
             this.getTransactions();
           })
@@ -325,7 +325,7 @@ export default {
     submitToServer(createTransactionDto: CreateTransactionDto) {
       axios
         .post(`${server.baseUrl}/trx`, createTransactionDto, this.requestHeader)
-        .then((data) => {
+        .then(() => {
           alert(
             `${createTransactionDto.transaction_nickname} 거래 등록이 완료되었습니다.`
           );
