@@ -278,6 +278,36 @@ export default {
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
           this.transactions = data.data;
+          this.transactions.map((transaction) => {
+            switch (transaction.request_day_of_week) {
+              case "d":
+                transaction.request_day_of_week = "매일";
+                break;
+              case "1":
+                transaction.request_day_of_week = "월";
+                break;
+              case "2":
+                transaction.request_day_of_week = "화";
+                break;
+              case "3":
+                transaction.request_day_of_week = "수";
+                break;
+              case "4":
+                transaction.request_day_of_week = "목";
+                break;
+              case "5":
+                transaction.request_day_of_week = "금";
+                break;
+              case "6":
+                transaction.request_day_of_week = "토";
+                break;
+              case "7":
+                transaction.request_day_of_week = "일";
+                break;
+            }
+
+            return transaction;
+          });
         })
         .catch((error) => {
           if (error.response.data.statusCode == 401) {
