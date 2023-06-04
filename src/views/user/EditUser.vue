@@ -104,6 +104,7 @@ export default {
         .delete(`${server.baseUrl}/user`, this.header)
         .then(() => {
           alert("회원탈퇴에 성공하였습니다.");
+          useAuthStore().logout();
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -115,6 +116,10 @@ export default {
       axios
         .get(getUserUrl, this.header)
         .then((data) => {
+          if (!data.data) {
+            alert("회원정보가 없습니다. 다시 로그인해주세요.");
+            useAuthStore().logout();
+          }
           this.user = data.data;
         })
         .catch((error) => {
