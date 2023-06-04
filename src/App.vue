@@ -38,12 +38,7 @@ const { authData } = storeToRefs(store);
   </div>
   <div class="go-to-whooing">
     <a href="https://whooing.com" target="_blank">
-      <div>후잉 바로가기</div>
-      <img
-        src="./assets/whooing-icon-180x180.svg"
-        class="logo"
-        alt="Whooing logo"
-      />
+      <div>후잉으로 이동</div>
     </a>
   </div>
   <div>Since 2023, Jinhoe (kimjh620@naver.com)</div>
