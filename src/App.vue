@@ -59,9 +59,6 @@ export default {
     logout(): void {
       useAuthStore().logout();
     },
-    resetPassword(): void {
-      alert("이메일을 통한 비밀번호 초기화 기능을 개발 중입니다.");
-    },
   },
 };
 </script>

@@ -34,6 +34,11 @@
           <button class="btn btn-success" type="submit">Login</button>
         </div>
       </form>
+      <div class="form-group col-md-4 pull-right">
+        <button class="btn btn-success" type="button" @click="resetPassword">
+          비밀번호 찾기
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -52,14 +57,17 @@ export default {
     };
   },
   methods: {
-    login() {
+    login(): void {
       let userData = {
         email: this.email,
         password: this.password,
       };
       this.submitToServer(userData);
     },
-    submitToServer(userData: any) {
+    resetPassword(): void {
+      alert("이메일을 통한 비밀번호 재설정 기능을 개발 중입니다.");
+    },
+    submitToServer(userData: any): void {
       axios
         .post(`${server.baseUrl}/auth/login`, userData)
         .then((data) => {
