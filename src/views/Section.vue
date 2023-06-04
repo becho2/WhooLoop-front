@@ -14,9 +14,12 @@
         />
       </div>
       <div>
-        <label for="webhook_url">후잉 Webhook Url </label>
+        <label for="webhook_url">
+          Webhook POST URL(https://whooing.com/#main/setting)
+        </label>
         <input
-          type="webhook_url"
+          style="width: 300px"
+          type="text"
           id="webhook_url"
           v-model="webhookUrl"
           name="webhook_url"
@@ -66,7 +69,7 @@ import { SectionDto } from "../dto/section.dto";
 export default {
   data() {
     return {
-      header: ["idx", "섹션명", "Webhook Url", "생성일시", ""],
+      header: ["idx", "섹션명", "Webhook Url(POST)", "생성일시", ""],
       sections: [],
       sectionName: "",
       webhookUrl: "",
