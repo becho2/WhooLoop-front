@@ -38,9 +38,7 @@
         </select>
       </div>
       <div class="form-group col-md-12">
-        <label for="request_time">
-          반복시간(HHMM)(ex. 새벽 3시는 0300, 오후 3시 12분이라면 1512)
-        </label>
+        <label for="request_time"> 반복시간(HHMM) </label>
         <input
           type="text"
           id="request_time"
@@ -50,6 +48,7 @@
           placeholder="시간분 4자리 숫자로 입력"
         />
       </div>
+      <div>(ex.오전 7시:0700, 오후 3시12분:1512)</div>
       <div class="form-group col-md-12">
         <label for="transaction_item"> 아이템 </label>
         <input
