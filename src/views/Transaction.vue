@@ -324,7 +324,6 @@ export default {
       axios
         .get(`${server.baseUrl}/section`, this.requestHeader)
         .then((data) => {
-          console.log(data.data);
           this.sectionsOfUsers = data.data;
         })
         .catch((error) => {

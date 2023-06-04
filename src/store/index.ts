@@ -1,6 +1,7 @@
 import { createPinia } from "pinia";
 const pinia = createPinia();
 
+/**
 // pinia action 실행될 때마다 console.log 찍기
 pinia.use(({ store }) => {
   if (store) {
@@ -33,5 +34,6 @@ pinia.use(({ store }) => {
     });
   }
 });
+*/
 
 export default pinia;
