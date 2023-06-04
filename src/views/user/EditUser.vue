@@ -26,7 +26,7 @@
           />
         </div>
         <div>
-          <label for="password_confirm"> Password Again </label>
+          <label for="password_confirm"> Password 재입력 </label>
           <input
             type="password"
             id="password_confirm"
@@ -37,9 +37,14 @@
           />
         </div>
         <div class="form-group col-md-4 pull-right">
-          <button class="btn btn-success" type="submit">Edit User</button>
+          <button class="btn btn-success" type="submit">비밀번호 변경</button>
         </div>
       </form>
+      <div class="form-group col-md-4 pull-right">
+        <button class="btn btn-success" type="button" @click="deleteUser">
+          회원 탈퇴
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +87,23 @@ export default {
         .patch(`${server.baseUrl}/user`, userData, this.header)
         .then(() => {
           alert("패스워드가 성공적으로 변경되었습니다.");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    deleteUser() {
+      if (
+        !confirm(
+          "정말 탈퇴하시겠습니까? 모든 관련 데이터가 완전히 삭제됩니다.(복구불가)"
+        )
+      ) {
+        return false;
+      }
+      axios
+        .delete(`${server.baseUrl}/user`, this.header)
+        .then(() => {
+          alert("회원탈퇴에 성공하였습니다.");
         })
         .catch((error) => {
           alert(error.response.data.message);
