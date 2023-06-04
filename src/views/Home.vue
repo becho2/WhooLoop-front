@@ -39,7 +39,7 @@
 import axios from "axios";
 import { useAuthStore } from "../store/modules/auth.store";
 import { AuthData } from "../store/index.interface";
-import { server } from "../helper";
+import { server } from "../server-base-url";
 
 export default {
   data() {

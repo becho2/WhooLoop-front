@@ -153,7 +153,7 @@ td {
 
 <script lang="ts">
 import axios from "axios";
-import { server } from "../helper";
+import { server } from "../server-base-url";
 import { CreateTransactionDto } from "../dto/create-transaction.dto";
 import { ref } from "vue";
 import { useAuthStore } from "../store/modules/auth.store";

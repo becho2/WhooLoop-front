@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { server } from "../../helper";
+import { server } from "../../server-base-url";
 import axios from "axios";
 import { ref } from "vue";
 import { useAuthStore } from "../../store/modules/auth.store";

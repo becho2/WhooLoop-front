@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import axios from "axios";
-import { server } from "../../helper";
+import { server } from "../../server-base-url";
 import router from "../../router/index";
 export default {
   data() {
