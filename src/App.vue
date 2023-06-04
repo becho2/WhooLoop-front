@@ -10,15 +10,15 @@ const { authData } = storeToRefs(store);
   <h1>매일의 후잉</h1>
   <router-link v-if="!authData.accessToken" to="/">Home</router-link>
   <router-link v-if="!authData.accessToken" to="/create-user">
-    | Join</router-link
-  >
+    | Join
+  </router-link>
   <router-link v-if="authData.accessToken" to="/edit-user"> MyPage</router-link>
   <router-link v-if="authData.accessToken" to="/sections">
-    | Sections</router-link
-  >
+    | Sections
+  </router-link>
   <router-link v-if="authData.accessToken" to="/transactions">
-    | Transactions</router-link
-  >
+    | Transactions
+  </router-link>
   <router-link
     v-if="authData.accessToken"
     to="/"
@@ -58,6 +58,9 @@ export default {
   methods: {
     logout(): void {
       useAuthStore().logout();
+    },
+    resetPassword(): void {
+      alert("이메일을 통한 비밀번호 초기화 기능을 개발 중입니다.");
     },
   },
 };
