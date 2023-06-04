@@ -133,7 +133,6 @@
           <td>
             <button v-on:click="deleteTransaction(line)">삭제</button>
           </td>
-          <!-- <td v-for="item in line">{{ item }}</td> -->
         </tr>
       </tbody>
     </table>
