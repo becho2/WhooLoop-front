@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="col-md-12 form-wrapper">
-      <h2>Create User</h2>
+      <h2>회원등록</h2>
       <form id="create-post-form" @submit.prevent="createUser">
         <div class="form-group col-md-12">
           <label for="email"> Email </label>
@@ -56,7 +56,14 @@ export default {
       passwordConfirmation: "",
     };
   },
+  created() {
+    alert("흥반장님과 협의하여 가입 과정에 대한 개선 후 다시 공개하겠습니다!");
+    this.backToHome();
+  },
   methods: {
+    backToHome() {
+      router.push("/");
+    },
     createUser() {
       if (this.password !== this.passwordConfirmation) {
         alert("동일한 비밀번호를 입력해주세요.");

@@ -7,7 +7,7 @@ const { authData } = storeToRefs(store);
 </script>
 
 <template>
-  <h1>매일의 후잉</h1>
+  <h1>매일/매주 거래 자동반복입력(개선 후 공개 예정!)</h1>
   <router-link v-if="!authData.accessToken" to="/">Home</router-link>
   <router-link v-if="!authData.accessToken" to="/create-user">
     | Join
