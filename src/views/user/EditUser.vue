@@ -90,9 +90,22 @@ export default {
     getUser() {
       const getUserUrl = `${server.baseUrl}/user`;
 
-      axios.get(getUserUrl, this.header).then((data) => {
-        this.user = data.data;
-      });
+      axios
+        .get(getUserUrl, this.header)
+        .then((data) => {
+          this.user = data.data;
+        })
+        .catch((error) => {
+          switch (error.response.data.statusCode) {
+            case 401:
+              useAuthStore().logout();
+              alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+              break;
+            default:
+              alert(error.response.data.message);
+              break;
+          }
+        });
     },
   },
 };
