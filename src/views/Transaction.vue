@@ -1,6 +1,6 @@
 <template>
   <div class="transaction">
-    <h1>반복할 거래</h1>
+    <h2>반복할 거래</h2>
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>

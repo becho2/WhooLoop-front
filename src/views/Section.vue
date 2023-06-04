@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h1>Section</h1>
+    <h2>Section</h2>
     <form id="create-section-form" @submit.prevent="createSection">
       <div class="form-group col-md-12">
         <label for="section_name">섹션명 </label>

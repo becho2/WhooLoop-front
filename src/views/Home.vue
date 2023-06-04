@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Whooing Everyday</h1>
+    <h2>Whooing Everyday</h2>
   </div>
   <div>
     <div class="col-md-12 form-wrapper">
