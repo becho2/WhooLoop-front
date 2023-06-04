@@ -37,7 +37,7 @@
           />
         </div>
         <div class="form-group col-md-4 pull-right">
-          <button class="btn btn-success" type="submit">이메일 등록</button>
+          <button class="btn btn-success" type="submit">회원가입</button>
         </div>
       </form>
     </div>
