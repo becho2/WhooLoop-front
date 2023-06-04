@@ -38,14 +38,16 @@
         </select>
       </div>
       <div class="form-group col-md-12">
-        <label for="request_time"> 반복시간(HHMM) </label>
+        <label for="request_time">
+          반복시간(HHMM)(ex. 새벽 3시는 0300, 오후 3시 12분이라면 1512)
+        </label>
         <input
           type="text"
           id="request_time"
           v-model="requestTime"
           name="request_time"
           class="form-control"
-          placeholder="거래를 입력할 시간을 시간, 분 순서로 4자리 숫자로 입력하세요(ex. 새벽 3시는 0300, 오후 3시 12분이라면 1512)"
+          placeholder="시간분 4자리 숫자로 입력"
         />
       </div>
       <div class="form-group col-md-12">
@@ -56,7 +58,7 @@
           v-model="transactionItem"
           name="transaction_item"
           class="form-control"
-          placeholder="후잉 거래 아이템을 입력하세요"
+          placeholder="거래 아이템 입력"
         />
       </div>
       <div class="form-group col-md-12">
@@ -67,7 +69,7 @@
           v-model="transactionMoneyAmount"
           name="transaction_money_amount"
           class="form-control"
-          placeholder="후잉 거래 금액을 입력하세요"
+          placeholder="후잉 거래 금액 입력"
         />
       </div>
       <div class="form-group col-md-12">
@@ -78,7 +80,7 @@
           v-model="transactionLeft"
           name="transaction_left"
           class="form-control"
-          placeholder="후잉 거래 왼쪽을 정확하게 입력하세요"
+          placeholder="거래 왼쪽 정확히 입력"
         />
       </div>
       <div class="form-group col-md-12">
@@ -89,12 +91,13 @@
           v-model="transactionRight"
           name="transaction_right"
           class="form-control"
-          placeholder="후잉 거래 오른쪽을 정확하게 입력하세요"
+          placeholder="거래 오른쪽 정확하게 입력"
         />
       </div>
       <div class="form-group col-md-12">
         <label for="transaction_memo"> 메모 </label>
         <input
+          style="width: 400px"
           type="text"
           id="transaction_memo"
           v-model="transactionMemo"
