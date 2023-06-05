@@ -14,7 +14,7 @@
         </select>
       </div>
       <div class="form-group col-md-12">
-        <label for="transaction_nickname"> 거래명 </label>
+        <label for="transaction_nickname"> 반복거래 별명 </label>
         <input
           type="text"
           id="transaction_nickname"
@@ -167,7 +167,7 @@ export default {
       header: [
         "idx",
         "섹션idx",
-        "거래명",
+        "거래별명",
         "반복요일",
         "반복시간",
         "아이템",
