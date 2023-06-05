@@ -57,13 +57,13 @@ export default {
     };
   },
   created() {
-    // alert("흥반장님과 협의하여 가입 과정에 대한 개선 후 다시 공개하겠습니다!");
-    // this.backToHome();
+    alert("흥반장님과 협의하여 가입 과정에 대한 개선 후 다시 공개하겠습니다!");
+    this.backToHome();
   },
   methods: {
-    // backToHome() {
-    //   // router.push("/");
-    // },
+    backToHome() {
+      router.push("/");
+    },
     createUser() {
       if (this.password !== this.passwordConfirmation) {
         alert("동일한 비밀번호를 입력해주세요.");
