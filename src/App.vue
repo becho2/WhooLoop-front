@@ -29,10 +29,10 @@ const { authData } = storeToRefs(store);
   </router-link>
   <router-view></router-view>
   <div class="go-to-github">
-    <a href="https://github.com/becho2/whooing-everyday" target="_blank">
+    <a href="https://github.com/becho2/WhooLoop" target="_blank">
       <div>Backend App 소스코드 (버그제보, 기능개선 요청 등)</div>
     </a>
-    <a href="https://github.com/becho2/whooing-everyday-vue" target="_blank">
+    <a href="https://github.com/becho2/WhooLoop-front" target="_blank">
       <div>Frontend App 소스코드 (버그제보, 기능개선 요청 등)</div>
     </a>
   </div>

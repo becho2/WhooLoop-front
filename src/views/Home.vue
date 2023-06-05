@@ -1,9 +1,7 @@
 <template>
   <div class="home">
-    <h2>Everyday</h2>
-    <section>
-      후잉 웹훅을 이용한 데일리/위클리 동일 거래 자동 반복입력기
-    </section>
+    <h2>WhooLoop</h2>
+    <section>후잉가계부 동일 거래 자동 반복입력기, 후룹</section>
   </div>
   <div>
     <div class="col-md-12 form-wrapper">
