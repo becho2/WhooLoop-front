@@ -3,28 +3,19 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "./store/modules/auth.store";
 
 const store = useAuthStore();
-const { authData } = storeToRefs(store);
+const { accessToken } = storeToRefs(store);
 </script>
 
 <template>
   <h1>WhooLoop(Beta)</h1>
-  <router-link v-if="!authData.accessToken" to="/">Home</router-link>
-  <router-link v-if="!authData.accessToken" to="/create-user">
-    | Join
-  </router-link>
-  <router-link v-if="authData.accessToken" to="/edit-user"> MyPage</router-link>
-  <router-link v-if="authData.accessToken" to="/sections">
-    | Sections
-  </router-link>
-  <router-link v-if="authData.accessToken" to="/transactions">
+  <router-link v-if="!accessToken" to="/">Home</router-link>
+  <router-link v-if="!accessToken" to="/create-user"> | Join </router-link>
+  <router-link v-if="accessToken" to="/edit-user"> MyPage</router-link>
+  <router-link v-if="accessToken" to="/sections"> | Sections </router-link>
+  <router-link v-if="accessToken" to="/transactions">
     | Transactions
   </router-link>
-  <router-link
-    v-if="authData.accessToken"
-    to="/"
-    v-on:click.native="logout()"
-    replace
-  >
+  <router-link v-if="accessToken" to="/" v-on:click.native="logout()" replace>
     | Logout
   </router-link>
   <router-view></router-view>

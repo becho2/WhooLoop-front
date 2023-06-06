@@ -218,8 +218,8 @@ export default {
       created: "",
       updatedLast: "",
       isDeleted: "",
-      accessToken: ref(useAuthStore().authData.accessToken),
-      requestHeader: {},
+      accessToken: ref(useAuthStore().accessToken),
+      requestHeader: { headers: { Authorization: "Bearer " } },
     };
   },
   created() {
@@ -275,6 +275,7 @@ export default {
       }
     },
     getTransactions() {
+      alert(this.requestHeader.headers.Authorization);
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {

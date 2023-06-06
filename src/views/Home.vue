@@ -60,7 +60,6 @@
 <script lang="ts">
 import axios from "axios";
 import { useAuthStore } from "../store/modules/auth.store";
-import { AuthData, OauthData } from "../store/index.interface";
 import { server } from "../server-base-url";
 
 export default {
@@ -80,15 +79,19 @@ export default {
       };
       this.submitToServer(userData);
     },
-    submitToServer(userData: any): void {
+    oauthLogin(): void {
+      let oauthData = {
+        requestToken: this.requestToken,
+        pin: this.pin,
+      };
+      this.submitToServer(oauthData);
+    },
+    submitToServer(data: any): void {
       axios
-        .post(`${server.baseUrl}/auth/login`, userData)
+        .post(`${server.baseUrl}/auth/login`, data)
         .then((response) => {
-          const authData: AuthData = {
-            email: this.email,
-            accessToken: response.data,
-          };
-          useAuthStore().login(authData);
+          const accessToken = response.data;
+          useAuthStore().login(accessToken);
           this.$router.push("/transactions");
         })
         .catch((error) => {
@@ -101,26 +104,6 @@ export default {
         .then((response) => {
           this.requestToken = response.data.requestToken;
           window.open(response.data.whooingAuthUrl, "_blank");
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    oauthLogin(): void {
-      let oauthData = {
-        requestToken: this.requestToken,
-        pin: this.pin,
-      };
-      axios
-        .post(`${server.baseUrl}/oauth`, oauthData)
-        .then((response) => {
-          const oauthData: OauthData = {
-            userId: response.data.userId,
-            accessToken: response.data.accessToken,
-            accessTokenSecret: response.data.accessTokenSecret,
-          };
-          useAuthStore().oauthLogin(oauthData);
-          this.$router.push("/transactions");
         })
         .catch((error) => {
           alert(error.response.data.message);

@@ -73,7 +73,7 @@ export default {
       sections: [],
       sectionName: "",
       webhookUrl: "",
-      accessToken: ref(useAuthStore().authData.accessToken),
+      accessToken: ref(useAuthStore().accessToken),
       requestHeader: {},
     };
   },
