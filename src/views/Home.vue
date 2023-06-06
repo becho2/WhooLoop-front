@@ -5,6 +5,11 @@
   </div>
   <div>
     <div class="col-md-12 form-wrapper">
+      <div class="form-group col-md-4 pull-right">
+        <button class="btn btn-success" type="button" @click="goWhooingOauth">
+          후잉으로 로그인하기
+        </button>
+      </div>
       <form id="login-post-form" @submit.prevent="login">
         <div class="form-group col-md-12">
           <label for="email"> Email </label>
@@ -75,6 +80,22 @@ export default {
           };
           useAuthStore().login(authData);
           this.$router.push("/transactions");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    },
+    goWhooingOauth(): void {
+      axios
+        .get(`${server.baseUrl}/oauth`)
+        .then((response) => {
+          window.open(response.data, "_blank");
+          // const authData: AuthData = {
+          //   email: this.email,
+          //   accessToken: data.data,
+          // };
+          // useAuthStore().login(authData);
+          // this.$router.push("/transactions");
         })
         .catch((error) => {
           alert(error.response.data.message);
