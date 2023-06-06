@@ -50,14 +50,9 @@
           />
         </div>
         <div class="form-group col-md-4 pull-right">
-          <button class="btn btn-success" type="submit">Login</button>
+          <button class="btn btn-success" type="submit">(BetaTest)Login</button>
         </div>
       </form>
-      <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="button" @click="resetPassword">
-          비밀번호 찾기
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -99,9 +94,6 @@ export default {
         .catch((error) => {
           alert(error.response.data.message);
         });
-    },
-    resetPassword(): void {
-      alert("이메일을 통한 비밀번호 재설정 기능을 개발 중입니다.");
     },
     goWhooingOauth(): void {
       axios
