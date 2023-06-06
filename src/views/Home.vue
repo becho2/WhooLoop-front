@@ -77,18 +77,18 @@ export default {
         email: this.email,
         password: this.password,
       };
-      this.submitToServer(userData);
+      this.submitToServer(`${server.baseUrl}/auth/login`, userData);
     },
     oauthLogin(): void {
       let oauthData = {
         requestToken: this.requestToken,
         pin: this.pin,
       };
-      this.submitToServer(oauthData);
+      this.submitToServer(`${server.baseUrl}/oauth`, oauthData);
     },
-    submitToServer(data: any): void {
+    submitToServer(url: string, data: any): void {
       axios
-        .post(`${server.baseUrl}/auth/login`, data)
+        .post(url, data)
         .then((response) => {
           const accessToken = response.data;
           useAuthStore().login(accessToken);

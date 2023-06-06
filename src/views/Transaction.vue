@@ -275,7 +275,6 @@ export default {
       }
     },
     getTransactions() {
-      alert(this.requestHeader.headers.Authorization);
       axios
         .get(`${server.baseUrl}/trx`, this.requestHeader)
         .then((data) => {
