@@ -1,6 +1,10 @@
 <template>
   <div class="transaction">
     <h2>반복할 거래</h2>
+    <section>
+      * 주의: '평일'은 단순히 '월화수목금'을 의미합니다. 즉, 공휴일에도
+      입력됩니다.
+    </section>
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>
@@ -28,6 +32,7 @@
         <label for="request_day_of_week"> 반복요일 </label>
         <select name="request_day_of_week" v-model="requestDayOfWeek">
           <option value="d">매일</option>
+          <option value="w">평일</option>
           <option value="1">월</option>
           <option value="2">화</option>
           <option value="3">수</option>
