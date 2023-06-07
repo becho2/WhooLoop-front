@@ -28,7 +28,9 @@
         />
       </div>
       <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="submit">섹션 등록</button>
+        <button class="btn btn-success" type="submit">
+          섹션 임의등록(다른 계정의 섹션 등록시)
+        </button>
       </div>
     </form>
     <table>
