@@ -9,7 +9,6 @@ const { accessToken } = storeToRefs(store);
 <template>
   <h1>WhooLoop(Beta)</h1>
   <router-link v-if="!accessToken" to="/">Home</router-link>
-  <router-link v-if="!accessToken" to="/create-user"> | Join </router-link>
   <router-link v-if="accessToken" to="/edit-user"> MyPage</router-link>
   <router-link v-if="accessToken" to="/sections"> | Sections </router-link>
   <router-link v-if="accessToken" to="/transactions">
