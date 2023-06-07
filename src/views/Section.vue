@@ -1,38 +1,10 @@
 <template>
   <div class="section">
     <h2>Section</h2>
-    <form id="create-section-form" @submit.prevent="createSection">
-      <div class="form-group col-md-12">
-        <label for="section_name">섹션명 </label>
-        <input
-          type="text"
-          id="section_name"
-          v-model="sectionName"
-          name="section_name"
-          class="form-control"
-          placeholder="Set section name"
-        />
-      </div>
-      <div>
-        <label for="webhook_url">
-          Webhook POST URL(https://whooing.com/#main/setting)
-        </label>
-        <input
-          style="width: 300px"
-          type="text"
-          id="webhook_url"
-          v-model="webhookUrl"
-          name="webhook_url"
-          class="form-control"
-          placeholder="Copy webhook url and paste that here"
-        />
-      </div>
-      <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="submit">
-          섹션 임의등록(다른 계정의 섹션 등록시)
-        </button>
-      </div>
-    </form>
+    <section>
+      * Whooing에서 섹션이름을 변경하셨을 경우 섹션 삭제 후 다시 핀로그인하시면
+      변경된 이름으로 추가됩니다.
+    </section>
     <table>
       <thead>
         <th v-for="headerItem in header">{{ headerItem }}</th>
@@ -50,6 +22,9 @@
 </template>
 
 <style>
+section {
+  padding: 15px;
+}
 table {
   width: 100%;
   border: 1px solid #444444;
@@ -71,7 +46,7 @@ import { SectionDto } from "../dto/section.dto";
 export default {
   data() {
     return {
-      header: ["idx", "섹션명", "Webhook Url(POST)", "생성일시", ""],
+      header: ["idx", "섹션명", "Webhook Url Token", "삭제하기"],
       sections: [],
       sectionName: "",
       webhookUrl: "",
