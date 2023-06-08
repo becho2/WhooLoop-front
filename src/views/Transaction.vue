@@ -288,6 +288,9 @@ export default {
               case "d":
                 transaction.request_day_of_week = "매일";
                 break;
+              case "w":
+                transaction.request_day_of_week = "평일";
+                break;
               case "1":
                 transaction.request_day_of_week = "월";
                 break;
