@@ -7,7 +7,7 @@ on:
 jobs:
   SSH:
     name: SSH Git Pull
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -18,12 +18,11 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          debug: true
           script: |
             cd ${{ secrets.WHOOLOOP_FRONT_FOLDER }}
-            git reset --hard
-            git fetch
-            git pull origin main
+            git pull
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             yarn install
             yarn build
             pm2 stop viteVue
