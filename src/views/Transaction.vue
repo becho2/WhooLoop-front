@@ -29,7 +29,7 @@
         />
       </div>
       <div>
-        <label for="request_day_of_week"> 반복요일 </label>
+        <label for="request_day_of_week"> 반복입력할 요일 </label>
         <select name="request_day_of_week" v-model="requestDayOfWeek">
           <option value="d">매일</option>
           <option value="w">평일</option>
@@ -43,17 +43,9 @@
         </select>
       </div>
       <div class="form-group col-md-12">
-        <label for="request_time"> 반복시간(HHMM) </label>
-        <input
-          type="text"
-          id="request_time"
-          v-model="requestTime"
-          name="request_time"
-          class="form-control"
-          placeholder="시간분 4자리 숫자로 입력"
-        />
+        <label for="request_time"> 반복입력할 시간 </label>
+        <input type="time" name="request_time" v-model="requestTime" />
       </div>
-      <div>(ex.오전 7시:0700, 오후 3시12분:1512)</div>
       <div class="form-group col-md-12">
         <label for="transaction_item"> 아이템 </label>
         <input
@@ -365,10 +357,14 @@ export default {
         return false;
       }
 
+      // 13:11 형태의 시간 문자열을 :를 떼고 1311 과 같은 네자리 숫자만 있는 문자열로 변경
+      const convertedReqeustTimeForApiFormat = this.requestTime
+        .split(":")
+        .join("");
       let createTransactionDto: CreateTransactionDto = {
         section_idx: this.sectionIdx,
         request_day_of_week: this.requestDayOfWeek,
-        request_time: this.requestTime,
+        request_time: convertedReqeustTimeForApiFormat,
         transaction_nickname: this.transactionNickname,
         transaction_item: this.transactionItem,
         transaction_money_amount: this.transactionMoneyAmount,
