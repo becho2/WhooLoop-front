@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h2>WhooLoop</h2>
-    <section>후잉가계부 동일 거래 자동 반복입력기, 후룹</section>
+    <h2>WhooLoop(후룹)</h2>
+    <section>후잉가계부 동일 거래 자동 반복입력기, 후룹입니다.</section>
   </div>
   <div>
     <div class="col-md-12 form-wrapper">
@@ -26,33 +26,6 @@
           </div>
         </form>
       </div>
-      <form id="login-post-form" @submit.prevent="login">
-        <div class="form-group col-md-12">
-          <label for="email"> Email </label>
-          <input
-            type="text"
-            id="email"
-            v-model="email"
-            name="email"
-            class="form-control"
-            placeholder="Enter email"
-          />
-        </div>
-        <div>
-          <label for="password"> Password </label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            name="password"
-            class="form-control"
-            placeholder="Enter password"
-          />
-        </div>
-        <div class="form-group col-md-4 pull-right">
-          <button class="btn btn-success" type="submit">(BetaTest)Login</button>
-        </div>
-      </form>
     </div>
   </div>
 </template>

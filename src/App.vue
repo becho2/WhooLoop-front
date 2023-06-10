@@ -7,7 +7,7 @@ const { accessToken } = storeToRefs(store);
 </script>
 
 <template>
-  <h1>WhooLoop(Beta)</h1>
+  <h1>WhooLoop</h1>
   <router-link v-if="!accessToken" to="/">Home</router-link>
   <router-link v-if="accessToken" to="/sections">Sections </router-link>
   <router-link v-if="accessToken" to="/transactions">
