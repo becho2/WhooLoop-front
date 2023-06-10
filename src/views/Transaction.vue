@@ -8,7 +8,7 @@
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>
-        <select name="section_idx" v-model="sectionIdx">
+        <select name="section_idx" v-model="sectionIdx" @change="getAccounts">
           <option
             v-for="section in sectionsOfUsers"
             :value="section.section_idx"
@@ -70,25 +70,68 @@
       </div>
       <div class="form-group col-md-12">
         <label for="transaction_left"> 왼쪽 </label>
-        <input
-          type="text"
-          id="transaction_left"
-          v-model="transactionLeft"
-          name="transaction_left"
-          class="form-control"
-          placeholder="거래 왼쪽 정확히 입력"
-        />
-      </div>
-      <div class="form-group col-md-12">
+        <select name="transaction_left" v-model="transactionLeft">
+          <option
+            v-for="leftAssets in leftAccountsOfSection.assets"
+            :value="leftAssets"
+          >
+            {{ leftAssets }}
+          </option>
+          <option
+            v-for="leftLiabilities in leftAccountsOfSection.liabilities"
+            :value="leftLiabilities"
+          >
+            {{ leftLiabilities }}
+          </option>
+          <option
+            v-for="leftCapital in leftAccountsOfSection.capital"
+            :value="leftCapital"
+          >
+            {{ leftCapital }}
+          </option>
+          <option
+            v-for="leftExpenses in leftAccountsOfSection.expenses"
+            :value="leftExpenses"
+          >
+            {{ leftExpenses }}
+          </option>
+        </select>
         <label for="transaction_right"> 오른쪽 </label>
-        <input
-          type="text"
-          id="transaction_right"
-          v-model="transactionRight"
-          name="transaction_right"
-          class="form-control"
-          placeholder="거래 오른쪽 정확하게 입력"
-        />
+        <select name="transaction_right" v-model="transactionRight">
+          <option
+            v-for="rightAssets in rightAccountsOfSection.assets"
+            :value="rightAssets"
+          >
+            {{ rightAssets }}
+          </option>
+          <option
+            v-for="rightLiabilities in rightAccountsOfSection.liabilities"
+            :value="rightLiabilities"
+          >
+            {{ rightLiabilities }}
+          </option>
+          <option
+            v-for="rightCapital in rightAccountsOfSection.capital"
+            :value="rightCapital"
+          >
+            {{ rightCapital }}
+          </option>
+          <option
+            v-for="rightIncome in rightAccountsOfSection.income"
+            :value="rightIncome"
+          >
+            {{ rightIncome }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button
+          class="btn btn-success"
+          type="button"
+          @click="refreshAccounts()"
+        >
+          왼쪽/오른쪽 항목 최신화
+        </button>
       </div>
       <div class="form-group col-md-12">
         <label for="transaction_memo"> 메모 </label>
@@ -160,6 +203,18 @@ export default {
   data() {
     return {
       sectionsOfUsers: [{ section_idx: 1, section_name: "a" }],
+      leftAccountsOfSection: {
+        assets: [],
+        liabilities: [],
+        capital: [],
+        expenses: [],
+      },
+      rightAccountsOfSection: {
+        assets: [],
+        liabilities: [],
+        capital: [],
+        income: [],
+      },
       header: [
         "idx",
         "섹션idx",
@@ -226,6 +281,48 @@ export default {
     this.getSectionsInfo();
   },
   methods: {
+    refreshAccounts() {
+      axios
+        .post(
+          `${server.baseUrl}/account`,
+          { sectionIdx: this.sectionIdx },
+          this.requestHeader
+        )
+        .then((data) => {
+          this.divideAccountsLeftAndRight(data.data);
+        })
+        .catch((error) => {
+          if (error.response.data.statusCode == 401) {
+            useAuthStore().logout();
+          } else {
+            alert(error.response.data.message);
+          }
+        });
+    },
+    getAccounts() {
+      axios
+        .get(`${server.baseUrl}/account/${this.sectionIdx}`, this.requestHeader)
+        .then((data) => {
+          this.divideAccountsLeftAndRight(data.data);
+        })
+        .catch((error) => {
+          if (error.response.data.statusCode == 401) {
+            useAuthStore().logout();
+          } else {
+            alert(error.response.data.message);
+          }
+        });
+    },
+    divideAccountsLeftAndRight(accountsData: any) {
+      this.leftAccountsOfSection.assets = accountsData.assets;
+      this.leftAccountsOfSection.liabilities = accountsData.liabilities;
+      this.leftAccountsOfSection.capital = accountsData.capital;
+      this.leftAccountsOfSection.expenses = accountsData.expenses;
+      this.rightAccountsOfSection.assets = accountsData.assets;
+      this.rightAccountsOfSection.liabilities = accountsData.liabilities;
+      this.rightAccountsOfSection.capital = accountsData.capital;
+      this.rightAccountsOfSection.income = accountsData.income;
+    },
     toggleTransaction(transaction: TransactionItemDto) {
       const updateTransaction: UpdateTransactionDto = {
         work_status: transaction.work_status === "ON" ? "OFF" : "ON",
