@@ -8,12 +8,7 @@
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>
-        <select
-          id="sectionSelect"
-          name="section_idx"
-          v-model="sectionIdx"
-          @change="getAccounts"
-        >
+        <select name="section_idx" v-model="sectionIdx" @change="getAccounts">
           <option
             v-for="section in sectionsOfUsers"
             :value="section.section_idx"
@@ -441,12 +436,9 @@ export default {
           }
         });
 
-      const sectionSelect = document.querySelector("#sectionSelect");
-      if (sectionSelect !== null) {
-        this.sectionIdx = this.sectionsOfUsers[0].section_idx;
-        sectionSelect.value = this.sectionsOfUsers[0].section_idx;
-        this.getAccounts();
-      }
+      // 페이지 진입시 첫번째 섹션 자동선택 + 왼쪽오른쪽항목 바로 불러오기
+      this.sectionIdx = this.sectionsOfUsers[0].section_idx;
+      this.getAccounts();
     },
     createTransaction() {
       if (!this.sectionIdx) {
