@@ -1,5 +1,5 @@
 export interface CreateTransactionDto {
-  section_idx: string;
+  section_idx: number;
   request_day_of_week: string;
   request_time: string;
   transaction_nickname: string;

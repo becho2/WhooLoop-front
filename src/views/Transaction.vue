@@ -151,7 +151,7 @@
         />
       </div>
       <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="submit">거래 등록</button>
+        <button class="btn btn-success" type="submit">반복거래 등록</button>
       </div>
     </form>
     <table>
@@ -271,9 +271,6 @@ export default {
       transactionLeft: "",
       transactionRight: "",
       transactionMemo: "",
-      created: "",
-      updatedLast: "",
-      isDeleted: "",
       accessToken: ref(useAuthStore().accessToken),
       requestHeader: { headers: { Authorization: "Bearer " } },
     };
