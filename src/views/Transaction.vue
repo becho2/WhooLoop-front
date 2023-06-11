@@ -8,7 +8,11 @@
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>
-        <select name="section_idx" v-model="sectionIdx" @change="getAccounts">
+        <select
+          name="section_idx"
+          v-model="sectionIdx"
+          @change="getAccountsAndFrequentItems"
+        >
           <option
             v-for="section in sectionsOfUsers"
             :value="section.section_idx"
@@ -18,17 +22,14 @@
         </select>
       </div>
       <div>
-        <button
-          class="btn btn-success"
-          type="button"
-          @click="refreshAccountsAndFreqeuntItemsOfSection"
-        >
+        <button type="button" @click="refreshAccountsAndFreqeuntItemsOfSection">
           이 섹션의 왼쪽/오른쪽 항목, 자주입력거래 최신화
         </button>
       </div>
       <div>
         <button
           v-for="frequentItem in frequentItems"
+          style="background-color: slategray; margin: 2px"
           type="button"
           @click="fillInputs(frequentItem)"
         >
@@ -333,9 +334,29 @@ export default {
           }
         });
     },
+    getFrequentItems() {
+      axios
+        .get(
+          `${server.baseUrl}/account/${this.sectionIdx}/frequents`,
+          this.requestHeader
+        )
+        .then((data) => {
+          this.frequentItems = data.data;
+        })
+        .catch((error) => {
+          if (error.response.data.statusCode == 401) {
+            useAuthStore().logout();
+          } else {
+            alert(error.response.data.message);
+          }
+        });
+    },
     getAccounts() {
       axios
-        .get(`${server.baseUrl}/account/${this.sectionIdx}`, this.requestHeader)
+        .get(
+          `${server.baseUrl}/account/${this.sectionIdx}/accounts`,
+          this.requestHeader
+        )
         .then((data) => {
           this.divideAccountsLeftAndRight(data.data);
         })
@@ -468,7 +489,11 @@ export default {
 
       // 페이지 진입시 첫번째 섹션 자동선택 + 왼쪽오른쪽항목 바로 불러오기
       this.sectionIdx = this.sectionsOfUsers[0].section_idx;
+      this.getAccountsAndFrequentItems();
+    },
+    getAccountsAndFrequentItems() {
       this.getAccounts();
+      this.getFrequentItems();
     },
     createTransaction() {
       if (!this.sectionIdx) {
