@@ -17,6 +17,24 @@
           </option>
         </select>
       </div>
+      <div>
+        <button
+          class="btn btn-success"
+          type="button"
+          @click="refreshAccountsAndFreqeuntItemsOfSection"
+        >
+          이 섹션의 왼쪽/오른쪽 항목, 자주입력거래 최신화
+        </button>
+      </div>
+      <div>
+        <button
+          v-for="frequentItem in frequentItems"
+          type="button"
+          @click="fillInputs(frequentItem)"
+        >
+          {{ frequentItem.item }}
+        </button>
+      </div>
       <div class="form-group col-md-12">
         <label for="transaction_nickname"> 반복거래 별명 </label>
         <input
@@ -124,15 +142,7 @@
           </option>
         </select>
       </div>
-      <div>
-        <button
-          class="btn btn-success"
-          type="button"
-          @click="refreshAccounts()"
-        >
-          왼쪽/오른쪽 항목 최신화
-        </button>
-      </div>
+
       <div class="form-group col-md-12">
         <label for="transaction_memo"> 메모 </label>
         <input
@@ -199,10 +209,24 @@ import { useAuthStore } from "../store/modules/auth.store";
 import { TransactionItemDto } from "../dto/transaction-item.dto";
 import { UpdateTransactionDto } from "../dto/update-transaction.dto";
 
+type FrequentItem = {
+  item: string;
+  money: number;
+  left: string;
+  right: string;
+};
 export default {
   data() {
     return {
       sectionsOfUsers: [{ section_idx: 1, section_name: "a" }],
+      frequentItems: [
+        {
+          item: "아이템",
+          money: 10,
+          left: "현금",
+          right: "기타수익",
+        } as FrequentItem,
+      ],
       leftAccountsOfSection: {
         assets: [],
         liabilities: [],
@@ -278,10 +302,16 @@ export default {
     this.getSectionsInfo();
   },
   methods: {
-    refreshAccounts() {
+    fillInputs(frequentItem: FrequentItem) {
+      this.transactionItem = frequentItem.item;
+      this.transactionMoneyAmount = frequentItem.money;
+      this.transactionLeft = frequentItem.left;
+      this.transactionRight = frequentItem.right;
+    },
+    refreshAccountsAndFreqeuntItemsOfSection() {
       if (
         !confirm(
-          "후잉 계정항목에 변경이 생겼을 경우 동기화시키는 기능입니다. 지금 최신화하시겠습니까?(5분에 한번만 가능)"
+          "후잉 계정항목 또는 자주입력거래에 변경이 생겼을 경우 동기화시키는 기능입니다. 지금 최신화하시겠습니까?(5분에 한번만 가능)"
         )
       ) {
         return false;
