@@ -262,7 +262,7 @@ export default {
           updated_last: "a",
         },
       ],
-      sectionIdx: "",
+      sectionIdx: 0,
       transactionNickname: "",
       requestDayOfWeek: "",
       requestTime: "",
@@ -446,7 +446,9 @@ export default {
 
       const sectionSelect = document.querySelector("#sectionSelect");
       if (sectionSelect !== null) {
+        this.sectionIdx = this.sectionsOfUsers[0].section_idx;
         sectionSelect.value = this.sectionsOfUsers[0].section_idx;
+        this.getAccounts();
       }
     },
     createTransaction() {
