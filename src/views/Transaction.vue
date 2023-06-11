@@ -8,7 +8,12 @@
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
         <label for="section_idx"> 섹션 </label>
-        <select name="section_idx" v-model="sectionIdx" @change="getAccounts">
+        <select
+          id="sectionSelect"
+          name="section_idx"
+          v-model="sectionIdx"
+          @change="getAccounts"
+        >
           <option
             v-for="section in sectionsOfUsers"
             :value="section.section_idx"
@@ -282,6 +287,13 @@ export default {
   },
   methods: {
     refreshAccounts() {
+      if (
+        !confirm(
+          "후잉 계정항목에 변경이 생겼을 경우 동기화시키는 기능입니다. 지금 최신화하시겠습니까?(5분에 한번만 가능)"
+        )
+      ) {
+        return false;
+      }
       axios
         .post(
           `${server.baseUrl}/account`,
@@ -414,8 +426,8 @@ export default {
           }
         });
     },
-    getSectionsInfo() {
-      axios
+    async getSectionsInfo() {
+      await axios
         .get(`${server.baseUrl}/section`, this.requestHeader)
         .then((data) => {
           this.sectionsOfUsers = data.data;
@@ -431,6 +443,11 @@ export default {
               break;
           }
         });
+
+      const sectionSelect = document.querySelector("#sectionSelect");
+      if (sectionSelect !== null) {
+        sectionSelect.value = this.sectionsOfUsers[0].section_idx;
+      }
     },
     createTransaction() {
       if (!this.sectionIdx) {
