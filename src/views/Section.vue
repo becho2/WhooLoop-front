@@ -3,7 +3,8 @@
     <h2>Section</h2>
     <section>
       * Whooing에서 섹션이름을 변경하셨을 경우 섹션 삭제 후 다시 핀로그인하시면
-      변경된 이름으로 추가됩니다.
+      변경된 이름으로 추가됩니다. (주의. 현재 섹션 삭제시 기존 해당 섹션에
+      연결돼있던 반복거래들은 정상동작하지 않게 됩니다.)
     </section>
     <table>
       <thead>
@@ -62,7 +63,11 @@ export default {
   },
   methods: {
     deleteSection(section: SectionDto) {
-      if (confirm(`${section.section_name} 섹션을 정말 삭제하시겠습니까?`)) {
+      if (
+        confirm(
+          `해당 섹션의 반복거래를 삭제 후 다시 등록하셔야 합니다. 그래도 ${section.section_name} 섹션을 삭제하시겠습니까?`
+        )
+      ) {
         axios
           .delete(
             `${server.baseUrl}/section/${section.section_idx}`,
