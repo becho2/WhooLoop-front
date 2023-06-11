@@ -325,6 +325,7 @@ export default {
         )
         .then((data) => {
           this.divideAccountsLeftAndRight(data.data);
+          this.getFrequentItems(); // 항목 초기화하면서 자주입력거래도 최신화되므로, 해당 목록도 가져오기
         })
         .catch((error) => {
           if (error.response.data.statusCode == 401) {
