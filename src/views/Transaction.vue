@@ -3,7 +3,10 @@
     <h2>반복할 거래</h2>
     <section>
       * 주의: '평일'은 단순히 '월화수목금'을 의미합니다. 즉, 공휴일에도
-      입력됩니다.
+      입력됩니다.<br />
+      * 종료일은 입력하지 않으면 무한반복이며 오늘보다 이전 날짜를 입력할 경우
+      종료되지 않습니다.<br />
+      (해당 날짜까지 동작하고 그날 밤 11시59분에 상태가 OFF로 변경됩니다.)
     </section>
     <form id="create-transaction-form" @submit.prevent="createTransaction">
       <div>
@@ -156,6 +159,18 @@
           placeholder="(필수 아님)후잉 거래 메모를 입력하세요"
         />
       </div>
+      <div class="form-group col-md-12">
+        <label for="expire_date">
+          마지막 반복일자(종료일)(비워두면 무한반복)
+        </label>
+        <input
+          type="date"
+          id="expire_date"
+          v-model="expireDate"
+          name="expire_date"
+          class="form-control"
+        />
+      </div>
       <div class="form-group col-md-4 pull-right">
         <button class="btn btn-success" type="submit">반복거래 등록</button>
       </div>
@@ -176,6 +191,7 @@
           <td>{{ line.transaction_left }}</td>
           <td>{{ line.transaction_right }}</td>
           <td>{{ line.transaction_memo }}</td>
+          <td>{{ line.expire_date }}</td>
           <td>
             <button v-on:click="toggleTransaction(line)">
               {{ line.work_status }}
@@ -251,6 +267,7 @@ export default {
         "왼쪽",
         "오른쪽",
         "메모",
+        "마지막반복일자",
         "동작여부",
       ],
       transactions: [
@@ -263,9 +280,9 @@ export default {
           /** 이 반복요청의 별칭 */
           transaction_nickname: "a",
           /** 요청을 반복할 요일(d: 매일, 1~7: 월~일요일) */
-          request_day_of_week: "a",
+          request_day_of_week: "d",
           /** 요청을 보낼 시간 HHmm */
-          request_time: "a",
+          request_time: "1230",
           // /** 후잉 item 입력값 */
           transaction_item: "a",
           // /** 후잉 금액 입력값 */
@@ -276,8 +293,9 @@ export default {
           transaction_right: "a",
           // /** 후잉 거래 메모 */
           transaction_memo: "a",
+          expire_date: "29991231",
           work_status: "a",
-          is_deleted: "a",
+          is_deleted: "N",
           created: "a",
           updated_last: "a",
         },
@@ -291,6 +309,7 @@ export default {
       transactionLeft: "",
       transactionRight: "",
       transactionMemo: "",
+      expireDate: "",
       accessToken: ref(useAuthStore().accessToken),
       requestHeader: { headers: { Authorization: "Bearer " } },
     };
@@ -429,6 +448,9 @@ export default {
         .then((data) => {
           this.transactions = data.data;
           this.transactions.map((transaction) => {
+            if (transaction.expire_date === "29991231") {
+              transaction.expire_date = "-";
+            }
             switch (transaction.request_day_of_week) {
               case "d":
                 transaction.request_day_of_week = "매일";
@@ -517,21 +539,26 @@ export default {
         alert("오른쪽이 입력되지 않았습니다.");
         return false;
       }
+      // YYYY-MM-DD format을 YYYYMMDD로 변경해서 보내기, 입력 안 할 시에는 기본값 29991231로 보내기
+      const convertedExpireDateForApiFormat = this.expireDate
+        ? this.expireDate.split("-").join("")
+        : "29991231";
 
       // 13:11 형태의 시간 문자열을 :를 떼고 1311 과 같은 네자리 숫자만 있는 문자열로 변경
-      const convertedReqeustTimeForApiFormat = this.requestTime
+      const convertedRequestTimeForApiFormat = this.requestTime
         .split(":")
         .join("");
       let createTransactionDto: CreateTransactionDto = {
         section_idx: this.sectionIdx,
         request_day_of_week: this.requestDayOfWeek,
-        request_time: convertedReqeustTimeForApiFormat,
+        request_time: convertedRequestTimeForApiFormat,
         transaction_nickname: this.transactionNickname,
         transaction_item: this.transactionItem,
         transaction_money_amount: this.transactionMoneyAmount,
         transaction_left: this.transactionLeft,
         transaction_right: this.transactionRight,
         transaction_memo: this.transactionMemo,
+        expire_date: convertedExpireDateForApiFormat,
       };
       this.submitToServer(createTransactionDto);
     },

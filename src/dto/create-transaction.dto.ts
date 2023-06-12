@@ -8,4 +8,5 @@ export interface CreateTransactionDto {
   transaction_left: string;
   transaction_right: string;
   transaction_memo: string;
+  expire_date: string;
 }
