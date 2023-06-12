@@ -175,6 +175,10 @@
         <button class="btn btn-success" type="submit">반복거래 등록</button>
       </div>
     </form>
+    <div style="padding: 10px">
+      * 항목 더블클릭시 수정가능합니다. (현재 수정기능이 입력실수를 막아줄 수
+      없으므로 정확히 입력해주세요!)
+    </div>
     <table>
       <thead>
         <th v-for="headerItem in header">{{ headerItem }}</th>
@@ -183,22 +187,85 @@
         <tr v-for="line in transactions">
           <td>{{ line.transaction_idx }}</td>
           <td>{{ line.section_idx }}</td>
-          <td>{{ line.transaction_nickname }}</td>
-          <td>{{ line.request_day_of_week }}</td>
-          <td>{{ line.request_time }}</td>
-          <td>{{ line.transaction_item }}</td>
-          <td>{{ line.transaction_money_amount }}</td>
-          <td>{{ line.transaction_left }}</td>
-          <td>{{ line.transaction_right }}</td>
-          <td>{{ line.transaction_memo }}</td>
-          <td>{{ line.expire_date }}</td>
+          <td
+            contenteditable="false"
+            class="transaction_nickname"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_nickname }}
+          </td>
+          <td
+            contenteditable="false"
+            class="request_day_of_week"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.request_day_of_week }}
+          </td>
+          <td
+            contenteditable="false"
+            class="request_time"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.request_time }}
+          </td>
+          <td
+            contenteditable="false"
+            class="transaction_item"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_item }}
+          </td>
+          <td
+            contenteditable="false"
+            class="transaction_money_amount"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_money_amount }}
+          </td>
+          <td
+            contenteditable="false"
+            class="transaction_left"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_left }}
+          </td>
+          <td
+            contenteditable="false"
+            class="transaction_right"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_right }}
+          </td>
+          <td
+            contenteditable="false"
+            class="transaction_memo"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.transaction_memo }}
+          </td>
+          <td
+            contenteditable="false"
+            class="expire_date"
+            @dblclick="makeEditable"
+            @focusout="updateTransaction(line, $event)"
+          >
+            {{ line.expire_date }}
+          </td>
           <td>
-            <button v-on:click="toggleTransaction(line)">
+            <button @click="toggleTransaction(line)">
               {{ line.work_status }}
             </button>
           </td>
           <td>
-            <button v-on:click="deleteTransaction(line)">삭제</button>
+            <button @click="deleteTransaction(line)">삭제</button>
           </td>
         </tr>
       </tbody>
@@ -322,6 +389,10 @@ export default {
     this.getSectionsInfo();
   },
   methods: {
+    makeEditable(e: any) {
+      e.target.contentEditable = true;
+      e.target.focus();
+    },
     fillInputs(frequentItem: FrequentItem) {
       this.transactionItem = frequentItem.item;
       this.transactionMoneyAmount = frequentItem.money;
@@ -422,6 +493,89 @@ export default {
           });
       }
     },
+    updateTransaction(transaction: TransactionItemDto, e: any) {
+      let updateTransaction: UpdateTransactionDto;
+      switch (e.target.className) {
+        case "transaction_nickname":
+          if (transaction.transaction_nickname === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_nickname: e.target.innerText };
+          break;
+        case "request_day_of_week":
+          if (transaction.request_day_of_week === e.target.innerText) {
+            return false;
+          }
+          const convertRequestDayOfWeek = this.convertRequestDayOfWeek(
+            e.target.innerText
+          );
+          updateTransaction = {
+            request_day_of_week: convertRequestDayOfWeek,
+          };
+          break;
+        case "request_time":
+          if (transaction.request_time === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { request_time: e.target.innerText };
+          break;
+        case "transaction_item":
+          if (transaction.transaction_item === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_item: e.target.innerText };
+          break;
+        case "transaction_money_amount":
+          // text와 number 타입에 상관없이 같으면 false return
+          if (transaction.transaction_money_amount == e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_money_amount: e.target.innerText };
+          break;
+        case "transaction_left":
+          if (transaction.transaction_left === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_left: e.target.innerText };
+          break;
+        case "transaction_right":
+          if (transaction.transaction_right === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_right: e.target.innerText };
+          break;
+        case "transaction_memo":
+          if (transaction.transaction_memo === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { transaction_memo: e.target.innerText };
+          break;
+        case "expire_date":
+          if (transaction.expire_date === e.target.innerText) {
+            return false;
+          }
+          updateTransaction = { expire_date: e.target.innerText };
+          break;
+        default:
+          updateTransaction = {};
+      }
+
+      if (confirm(`${e.target.innerText} (으)로 수정하시겠습니까?`)) {
+        axios
+          .patch(
+            `${server.baseUrl}/trx/${transaction.transaction_idx}`,
+            updateTransaction,
+            this.requestHeader
+          )
+          .then(() => {
+            alert("변경되었습니다.");
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
+      location.reload();
+    },
     deleteTransaction(transaction: TransactionItemDto) {
       if (
         confirm(
@@ -451,35 +605,9 @@ export default {
             if (transaction.expire_date === "29991231") {
               transaction.expire_date = "-";
             }
-            switch (transaction.request_day_of_week) {
-              case "d":
-                transaction.request_day_of_week = "매일";
-                break;
-              case "w":
-                transaction.request_day_of_week = "평일";
-                break;
-              case "1":
-                transaction.request_day_of_week = "월";
-                break;
-              case "2":
-                transaction.request_day_of_week = "화";
-                break;
-              case "3":
-                transaction.request_day_of_week = "수";
-                break;
-              case "4":
-                transaction.request_day_of_week = "목";
-                break;
-              case "5":
-                transaction.request_day_of_week = "금";
-                break;
-              case "6":
-                transaction.request_day_of_week = "토";
-                break;
-              case "7":
-                transaction.request_day_of_week = "일";
-                break;
-            }
+            transaction.request_day_of_week = this.convertRequestDayOfWeek(
+              transaction.request_day_of_week
+            );
 
             return transaction;
           });
@@ -579,6 +707,48 @@ export default {
             alert(error.response.data.message);
           }
         });
+    },
+    convertRequestDayOfWeek(target: string): string {
+      switch (target) {
+        case "d":
+          return "매일";
+        case "w":
+          return "평일";
+        case "1":
+          return "월";
+        case "2":
+          return "화";
+        case "3":
+          return "수";
+        case "4":
+          return "목";
+        case "5":
+          return "금";
+        case "6":
+          return "토";
+        case "7":
+          return "일";
+        case "매일":
+          return "d";
+        case "평일":
+          return "w";
+        case "월":
+          return "1";
+        case "화":
+          return "2";
+        case "수":
+          return "3";
+        case "목":
+          return "4";
+        case "금":
+          return "5";
+        case "토":
+          return "6";
+        case "일":
+          return "7";
+        default:
+          return "";
+      }
     },
   },
 };
