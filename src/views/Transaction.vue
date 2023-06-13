@@ -165,6 +165,7 @@
         </label>
         <input
           type="date"
+          max="2999-12-31"
           id="expire_date"
           v-model="expireDate"
           name="expire_date"
