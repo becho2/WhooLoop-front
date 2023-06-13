@@ -528,10 +528,10 @@ export default {
           break;
         case "transaction_money_amount":
           // text와 number 타입에 상관없이 같으면 false return
-          if (transaction.transaction_money_amount == e.target.innerText) {
+          if (transaction.transaction_money_amount === +e.target.innerText) {
             return false;
           }
-          updateTransaction = { transaction_money_amount: e.target.innerText };
+          updateTransaction = { transaction_money_amount: +e.target.innerText };
           break;
         case "transaction_left":
           if (transaction.transaction_left === e.target.innerText) {
