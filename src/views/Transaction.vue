@@ -683,7 +683,7 @@ export default {
         request_time: convertedRequestTimeForApiFormat,
         transaction_nickname: this.transactionNickname,
         transaction_item: this.transactionItem,
-        transaction_money_amount: this.transactionMoneyAmount,
+        transaction_money_amount: +this.transactionMoneyAmount,
         transaction_left: this.transactionLeft,
         transaction_right: this.transactionRight,
         transaction_memo: this.transactionMemo,
