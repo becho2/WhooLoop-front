@@ -7,7 +7,7 @@
     <div class="col-md-12 form-wrapper">
       <div class="form-group col-md-4 pull-right">
         <button class="btn btn-success" type="button" @click="goWhooingOauth">
-          후잉으로 로그인(핀 얻기)
+          후잉으로 후룹 로그인하기
         </button>
         <form id="oauth-login-post-form" @submit.prevent="oauthLogin">
           <div>
@@ -29,6 +29,12 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+#oauth-login-post-form {
+  display: none;
+}
+</style>
 
 <script lang="ts">
 import axios from "axios";
