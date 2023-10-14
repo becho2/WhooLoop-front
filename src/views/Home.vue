@@ -85,7 +85,7 @@ export default {
         .get(`${server.baseUrl}/oauth`)
         .then((response) => {
           this.requestToken = response.data.requestToken;
-          window.open(response.data.whooingAuthUrl, "_blank");
+          window.open(response.data.whooingAuthUrl, "_self");
         })
         .catch((error) => {
           alert(error.response.data.message);
