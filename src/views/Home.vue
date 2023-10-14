@@ -34,6 +34,7 @@
 import axios from "axios";
 import { useAuthStore } from "../store/modules/auth.store";
 import { server } from "../server-base-url";
+import { useRoute } from "vue-router";
 
 export default {
   data() {
@@ -43,6 +44,13 @@ export default {
       pin: "",
       requestToken: "",
     };
+  },
+  created() {
+    const route = useRoute();
+    if (route.query.pin !== undefined) {
+      this.pin = route.query.pin as string;
+      this.oauthLogin();
+    }
   },
   methods: {
     login(): void {
