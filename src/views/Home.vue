@@ -13,7 +13,7 @@ const { accessToken } = storeToRefs(store);
     <div class="col-md-12 form-wrapper">
       <div class="form-group col-md-4 pull-right">
         <button
-          v-if="accessToken"
+          v-if="!accessToken"
           class="btn btn-success"
           type="button"
           @click="goWhooingOauth"
