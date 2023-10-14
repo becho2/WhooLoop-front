@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h2>WhooLoop(후룹)</h2>
     <section>후잉가계부 동일 거래 자동 반복입력기, 후룹입니다.</section>
   </div>
   <div>

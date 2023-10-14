@@ -11,7 +11,7 @@
       <a
         href="https://whooing.com/#forum/developer/ko/all/0/_/431595"
         target="_blank"
-        >후잉 앱 소개글 보러가기</a
+        >후잉게시판 후룹 소개글 보러가기</a
       >
       <a href="https://github.com/becho2/WhooLoop" target="_blank">
         <div>Backend App Github</div>

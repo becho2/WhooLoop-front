@@ -7,9 +7,9 @@ const { accessToken } = storeToRefs(store);
 </script>
 
 <template>
-  <h1>WhooLoop</h1>
-  <router-link v-if="!accessToken" to="/">Home </router-link>
-  <router-link to="/info"> | Info </router-link>
+  <h1><router-link to="/">WhooLoop</router-link></h1>
+
+  <router-link to="/info">Info </router-link>
   <router-link v-if="accessToken" to="/sections"> | Sections </router-link>
   <router-link v-if="accessToken" to="/transactions">
     | Transactions
@@ -18,7 +18,13 @@ const { accessToken } = storeToRefs(store);
     | Logout
   </router-link>
   <router-view></router-view>
+
   <div class="go-to-whooing">
+    <a
+      href="https://whooing.com/#forum/developer/ko/all/0/_/431595"
+      target="_blank"
+      >후잉게시판 후룹 소개글 보러가기</a
+    >
     <a href="https://whooing.com" target="_blank">
       <div>후잉 메인으로 이동</div>
     </a>
@@ -41,6 +47,9 @@ export default {
 </script>
 
 <style scoped>
+router-link {
+  font-size: large;
+}
 .go-to-whooing {
   padding: 1.5em;
 }
