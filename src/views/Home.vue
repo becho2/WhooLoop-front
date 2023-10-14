@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "../store/modules/auth.store";
+
+const store = useAuthStore();
+const { accessToken } = storeToRefs(store);
+</script>
 <template>
   <div class="home">
     <section>후잉가계부 동일 거래 자동 반복입력기, 후룹입니다.</section>
@@ -5,7 +12,12 @@
   <div>
     <div class="col-md-12 form-wrapper">
       <div class="form-group col-md-4 pull-right">
-        <button class="btn btn-success" type="button" @click="goWhooingOauth">
+        <button
+          v-if="accessToken"
+          class="btn btn-success"
+          type="button"
+          @click="goWhooingOauth"
+        >
           후잉으로 후룹 로그인하기
         </button>
         <form id="oauth-login-post-form" @submit.prevent="oauthLogin">
@@ -37,7 +49,6 @@
 
 <script lang="ts">
 import axios from "axios";
-import { useAuthStore } from "../store/modules/auth.store";
 import { server } from "../server-base-url";
 import { useRoute } from "vue-router";
 
