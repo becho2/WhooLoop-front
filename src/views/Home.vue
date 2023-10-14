@@ -47,7 +47,11 @@ export default {
   },
   created() {
     const route = useRoute();
-    if (route.query.pin !== undefined) {
+    if (
+      route.query.pin !== undefined &&
+      route.query.requestToken !== undefined
+    ) {
+      this.requestToken = route.query.requestToken as string;
       this.pin = route.query.pin as string;
       this.oauthLogin();
     }

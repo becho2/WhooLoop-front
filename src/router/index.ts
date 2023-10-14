@@ -7,7 +7,6 @@ import HelloWorld from "../components/HelloWorld.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
-  { path: "/oauth/callback", name: "OAuthCallback", component: Home },
   { path: "/sections", name: "Section", component: Section },
   { path: "/transactions", name: "Transaction", component: Transaction },
   { path: "/hello", name: "HelloWorld", component: HelloWorld },
